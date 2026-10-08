@@ -42,7 +42,8 @@ src/
   timer/         motore del timer su istanti assoluti, wake lock               — tappa 2
   breath/        schemi e pacer del respiro                                   — tappa 3
   sessions/      meditazioni guidate: formato, contenuti (content/*.md), voce
-  storage/       IndexedDB con migrazioni, impostazioni, export/import        — tappa 6
+  storage/       IndexedDB con migrazioni (registro), impostazioni leggere
+  history/       statistiche dello storico (totali, calendario)
   path/          regole del percorso adattivo                                 — tappa 7
   pwa/           service worker e aggiornamenti che non interrompono la seduta
   ui/            token di design, componenti, schermate, stringhe italiane

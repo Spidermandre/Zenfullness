@@ -134,8 +134,25 @@ Wake Lock available in standalone mode since iOS 18.4). Android Chrome is the se
 - Content tone: sober, practical, no new-age language; long silences between
   instructions; nothing in the last 20 s before the bell (tested).
 
+## History (stage 6)
+
+- `storage/db.ts`: own ~100-line IndexedDB wrapper; `MIGRATIONS` is an ordered list,
+  each upgrading from `version - 1`; all missing ones run in the single upgrade
+  transaction. Schema v1: `log` (keyPath `id`, index `startedAt`) and `meta`. Tests use
+  `fake-indexeddb` and simulate a future v2 migration over existing data.
+- `storage/log.ts`: `LogEntry` (kind, startedAt, endedAt, planned/actual seconds,
+  completed, detail, optional note). Only practices ≥ 60 s are saved; soundscape
+  listening is not a practice. `navigator.storage.persist()` is requested on first use.
+- `ui/record.ts`: `useRecordOnFinish` saves once when a practice finishes (natural or
+  early); `EndScreen` (shared by sitting, breath, guided) adds the optional note.
+- `history/stats.ts` (pure): month totals, practised days, Monday-first month grid,
+  today/yesterday by calendar day. Storico follows design 06; added month navigation
+  and weekday initials. The calendar is an ordered list with hidden full-date labels.
+
 ## Product decisions (from the user)
 
+- **No import/export.** Stage 6 is history and stats only: no backup file, no import.
+  Do not add it unless the user asks.
 - **No biofeedback.** Stage 8 (microphone breath rate, camera heart rate) is dropped:
   no `biofeedback/` module, no microphone/camera permissions, no biofeedback fields in the
   session log. Do not reintroduce it unless the user asks.
@@ -161,6 +178,7 @@ Wake Lock available in standalone mode since iOS 18.4). Android Chrome is the se
 | vitest                                                     | unit tests                                             |
 | @playwright/test                                           | e2e (pinned 1.56.1 to match the preinstalled Chromium) |
 | @types/node                                                | types for tests/config                                 |
+| fake-indexeddb (dev)                                       | IndexedDB in Vitest (storage + migration tests)        |
 
 ## Stage log
 
@@ -179,3 +197,5 @@ Wake Lock available in standalone mode since iOS 18.4). Android Chrome is the se
 5. **Guided meditations** — done. Markdown content format, six sessions (Postura,
    Consapevolezza del respiro, Scansione del corpo, Shikantaza, Suoni, Benevolenza),
    Guidate list per design, playback with text + Italian TTS or a recording.
+6. **History** — done (no import/export, by user decision). IndexedDB log with
+   migrations, note on the end screen, Storico per design.
