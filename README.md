@@ -41,7 +41,7 @@ src/
   audio/         sintesi in tempo reale (campane, legni, paesaggi sonori)      — tappa 2, 4
   timer/         motore del timer su istanti assoluti, wake lock               — tappa 2
   breath/        schemi e pacer del respiro                                   — tappa 3
-  sessions/      meditazioni guidate: parser e file di contenuto              — tappa 5
+  sessions/      meditazioni guidate: formato, contenuti (content/*.md), voce
   storage/       IndexedDB con migrazioni, impostazioni, export/import        — tappa 6
   path/          regole del percorso adattivo                                 — tappa 7
   pwa/           service worker e aggiornamenti che non interrompono la seduta
@@ -52,7 +52,33 @@ La logica (timer, sintesi, segnali, regole) non dipende da React e si testa senz
 
 ## Come aggiungere una meditazione guidata
 
-_Disponibile dalla tappa 5._ Basterà aggiungere un file in `src/sessions/content/`.
+Basta aggiungere un file `.md` in `src/sessions/content/`: il nome del file è l'identificativo,
+la sessione compare nella lista Guidate al prossimo push (la pubblicazione è automatica).
+
+```markdown
+---
+title: Camminare
+duration: 12 # minuti: alla fine suona la campana
+order: 7 # posizione nella lista (facoltativo)
+---
+
+[00:05] Alzati lentamente. Porta le mani in shashu, davanti al petto.
+
+[00:40] A ogni respiro, mezzo passo.
+Le righe senza orario continuano l'istruzione precedente.
+
+[03:00] Un'istruzione successiva…
+```
+
+Regole: gli orari sono `mm:ss` (o `h:mm:ss`) dall'inizio, crescenti e prima della fine; una riga
+vuota dentro un'istruzione crea un nuovo paragrafo. All'inizio e alla fine suona una ciotola.
+Le istruzioni compaiono come testo e, se "Lettura ad alta voce" è attiva, vengono lette con la
+voce italiana migliore del dispositivo. `npm test` verifica ogni file e indica l'errore esatto.
+
+**Con una registrazione.** Metti il file audio in `public/audio/` (meglio `.m4a` o `.mp3`) e
+aggiungi al front matter `audio: audio/nome-file.m4a`. La registrazione sostituisce la voce
+sintetica e segue pausa e ripresa; gli orari `[mm:ss]` continuano a far comparire il testo.
+Il file entra nella cache offline come il resto dell'app. Nessuna modifica al codice.
 
 ## Pubblicazione
 

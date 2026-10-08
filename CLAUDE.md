@@ -116,6 +116,24 @@ Wake Lock available in standalone mode since iOS 18.4). Android Chrome is the se
   listening.
 - Oggi now shows the design's "Altre pratiche" list.
 
+## Guided meditations (stage 5)
+
+- Content: `src/sessions/content/*.md` (front matter `title`, `duration`, `order`,
+  optional `audio`; body `[mm:ss] text`). Loaded with `import.meta.glob(..., '?raw')`;
+  `sessions/format.ts` parses strictly; `catalog.test.ts` validates every file in CI.
+  Runtime skips a broken file with `console.warn` instead of breaking the app.
+- `sessions/session.ts`: timed practice + opening/closing bowl; the instruction on
+  screen is a pure function of elapsed time.
+- Speech: `sessions/speech.ts` (Web Speech API, best Italian voice via `voice.ts`,
+  unlocked inside the start tap, cancelled on pause; each instruction spoken once).
+- Recording: `audio:` path under `public/audio/` replaces speech; `recording.ts` keeps an
+  HTMLAudioElement aligned (resync on visibility if drift > 0.75 s). Audio extensions are
+  precached (limit 60 MB).
+- Guided playback screen is not in the design (sitting-style night screen, instruction in
+  the display face, 2.4 s fade). Guidate list has "Lettura ad alta voce" and "Ambiente".
+- Content tone: sober, practical, no new-age language; long silences between
+  instructions; nothing in the last 20 s before the bell (tested).
+
 ## Product decisions (from the user)
 
 - **No biofeedback.** Stage 8 (microphone breath rate, camera heart rate) is dropped:
@@ -158,3 +176,6 @@ Wake Lock available in standalone mode since iOS 18.4). Android Chrome is the se
    end screen. New app icon (brush ensō, `scripts/icons/`).
 4. **Generative soundscapes** — done. Rain, wind, water, drone; mixer screen; ambient
    option in Zazen and Respiro; separate bell/ambient volumes; Oggi "Altre pratiche".
+5. **Guided meditations** — done. Markdown content format, six sessions (Postura,
+   Consapevolezza del respiro, Scansione del corpo, Shikantaza, Suoni, Benevolenza),
+   Guidate list per design, playback with text + Italian TTS or a recording.
