@@ -4,6 +4,8 @@ const PORT = 4173;
 
 export default defineConfig({
   testDir: 'e2e',
+  // Performance checks run separately (`npm run perf`): CI runners are too noisy.
+  grepInvert: process.argv.includes('@perf') ? undefined : /@perf/,
   fullyParallel: true,
   forbidOnly: Boolean(process.env.CI),
   retries: 0,
