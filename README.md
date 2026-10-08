@@ -1,5 +1,7 @@
 # Zenfullness
 
+![Zenfullness — pratica zen quotidiana](docs/cover.png)
+
 Web app personale per la pratica zen quotidiana: zazen silenzioso, respirazione guidata,
 meditazioni guidate, suoni generativi. Gira interamente nel browser, è installabile come PWA,
 funziona senza rete e non invia dati a nessuno.
