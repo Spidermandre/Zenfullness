@@ -78,6 +78,23 @@ Wake Lock available in standalone mode since iOS 18.4). Android Chrome is the se
   (`storage/settings.ts`, validated field by field). They are part of the future export.
 - e2e uses `page.clock` to fast-forward sittings; don't use `waitForTimeout` with it.
 
+## Breath (stage 3)
+
+- `breath/patterns.ts`: built-in patterns (susokukan 4-0-6-0 counting, square 4-4-4-4,
+  4-6, 4-7-8, coherence 5-0-5-0 = 6/min) + custom (clamped). `pacerAt(phases, elapsed)` is
+  the single source for sphere size (cosine-eased fullness), word and susokukan count.
+- `breath/session.ts` reuses `timer/practice.ts` (the generic timed practice extracted
+  from the sitting): tones at inhale/exhale starts on the audio clock, a soft bowl at the
+  end, sessions rounded up to whole breaths.
+- The pacer animates outside React: one rAF loop writes `transform`/`opacity` and the
+  word. No `backdrop-filter` on the animated sphere (cost with no visible effect).
+  Reduced motion: size stays fixed, brightness follows the breath.
+- Vibration via `navigator.vibrate` at inhale/exhale; the chip is hidden where the API
+  does not exist (all iOS browsers).
+- Respiro keeps a night-variant tab bar when idle (design shows none); hidden while
+  running. Custom-pattern editor is a night glass panel (not in the design).
+- e2e: prefer `page.clock.fastForward` for long jumps; `runFor` steps every frame.
+
 ## Product decisions (from the user)
 
 - Settings: glass icon button top-right on Oggi (tab bar keeps the 5 design tabs).
@@ -111,3 +128,6 @@ Wake Lock available in standalone mode since iOS 18.4). Android Chrome is the se
    time), night sitting screen (label, static ring, Pausa/Riprendi, two-tap Termina), end
    screen with practised duration, bell volume + test in Impostazioni. Sittings are not yet
    recorded (stage 6).
+3. **Guided breathing** — done. Respiro screen per design (glass sphere pacer, words only,
+   scheme chips), duration/sound/vibration chips, custom pattern editor, pause/end,
+   end screen. New app icon (brush ensō, `scripts/icons/`).
