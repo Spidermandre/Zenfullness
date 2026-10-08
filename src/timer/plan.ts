@@ -6,7 +6,7 @@
 
 export type PeriodKind = 'zazen' | 'kinhin';
 export type SegmentKind = 'prep' | PeriodKind;
-export type Instrument = 'bowl' | 'inkin' | 'han' | 'mokugyo';
+export type Instrument = 'bowl' | 'inkin' | 'han' | 'mokugyo' | 'breathIn' | 'breathOut';
 
 export interface Period {
   kind: PeriodKind;
@@ -38,7 +38,7 @@ export interface Cue {
   instrument: Instrument;
   /** 0..1 relative loudness. */
   gain: number;
-  reason: 'zazen-start' | 'kinhin-start' | 'mid' | 'end';
+  reason: 'zazen-start' | 'kinhin-start' | 'mid' | 'end' | 'breath-in' | 'breath-out';
 }
 
 export interface Plan {
@@ -59,6 +59,8 @@ export const STRIKE_SPACING: Record<Instrument, number> = {
   inkin: 3,
   han: 1.6,
   mokugyo: 1.2,
+  breathIn: 0,
+  breathOut: 0,
 };
 
 const INSTRUMENTS: Record<BellSet, { main: Instrument; mid: Instrument }> = {
