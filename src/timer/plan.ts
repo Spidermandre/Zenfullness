@@ -40,7 +40,7 @@ export interface Cue {
   instrument: Instrument;
   /** 0..1 relative loudness. */
   gain: number;
-  reason: 'zazen-start' | 'kinhin-start' | 'mid' | 'end' | 'breath-in' | 'breath-out';
+  reason: 'start' | 'zazen-start' | 'kinhin-start' | 'mid' | 'end' | 'breath-in' | 'breath-out';
 }
 
 export interface Plan {

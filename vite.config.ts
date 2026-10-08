@@ -43,7 +43,9 @@ export default defineConfig(({ command }) => ({
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,svg,png,webmanifest,json,md}'],
+        // Recorded guided sessions (public/audio/) are precached too, so they work offline.
+        globPatterns: ['**/*.{js,css,html,svg,png,webmanifest,json,md,m4a,mp3,ogg,opus}'],
+        maximumFileSizeToCacheInBytes: 60 * 1024 * 1024,
         navigateFallback: 'index.html',
         cleanupOutdatedCaches: true,
       },
