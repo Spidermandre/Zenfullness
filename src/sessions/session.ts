@@ -1,5 +1,10 @@
 import type { Cue } from '../timer/plan';
-import { startTimedPractice, type PracticeDeps, type PracticeSnapshot } from '../timer/practice';
+import {
+  startTimedPractice,
+  type PracticeDeps,
+  type PracticeSnapshot,
+  type PracticeState,
+} from '../timer/practice';
 import { instructionAt, type GuidedSession, type Instruction } from './format';
 
 /** A guided meditation: one soft strike to open, timed instructions, one strike to close. */
@@ -12,6 +17,7 @@ export interface GuidedSnapshot extends PracticeSnapshot {
 export interface Guided {
   readonly session: GuidedSession;
   readonly total: number;
+  state(): PracticeState;
   pause(): void;
   resume(): void;
   resync(): void;
@@ -33,6 +39,7 @@ export function startGuided(session: GuidedSession, deps: PracticeDeps): Guided 
   return {
     session,
     total,
+    state: () => practice.state(),
     pause: () => {
       practice.pause();
     },

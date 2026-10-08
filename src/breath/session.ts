@@ -1,4 +1,9 @@
-import { startTimedPractice, type PracticeDeps, type PracticeSnapshot } from '../timer/practice';
+import {
+  startTimedPractice,
+  type PracticeDeps,
+  type PracticeSnapshot,
+  type PracticeState,
+} from '../timer/practice';
 import type { Cue } from '../timer/plan';
 import { pacerAt, phaseStarts, wholeBreaths, type PacerState, type Phases } from './patterns';
 
@@ -18,6 +23,7 @@ export interface BreathSnapshot extends PracticeSnapshot {
 
 export interface Breathing {
   readonly total: number;
+  state(): PracticeState;
   pause(): void;
   resume(): void;
   resync(): void;
@@ -45,6 +51,7 @@ export function startBreathing(config: BreathConfig, deps: PracticeDeps): Breath
   const practice = startTimedPractice(breathCues(config, total), total, deps);
   return {
     total,
+    state: () => practice.state(),
     pause: () => {
       practice.pause();
     },

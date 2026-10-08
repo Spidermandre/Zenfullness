@@ -1,5 +1,10 @@
 import { buildPlan, positionAt, type Plan, type Position, type SittingConfig } from './plan';
-import { startTimedPractice, type PracticeDeps, type PracticeSnapshot } from './practice';
+import {
+  startTimedPractice,
+  type PracticeDeps,
+  type PracticeSnapshot,
+  type PracticeState,
+} from './practice';
 
 /** One sitting from start to finish: a timed practice plus the zazen/kinhin plan. */
 export interface SittingSnapshot extends PracticeSnapshot {
@@ -10,6 +15,7 @@ export interface SittingSnapshot extends PracticeSnapshot {
 
 export interface Sitting {
   readonly plan: Plan;
+  state(): PracticeState;
   pause(): void;
   resume(): void;
   resync(): void;
@@ -26,6 +32,7 @@ export function startSitting(config: SittingConfig, deps: SittingDeps): Sitting 
 
   return {
     plan,
+    state: () => practice.state(),
     pause: () => {
       practice.pause();
     },

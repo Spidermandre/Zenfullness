@@ -24,8 +24,16 @@ export interface PracticeSnapshot {
   endedEarly: boolean;
 }
 
+/** Everything needed to rebuild a practice after a reload (see ui/persist.ts). */
+export interface PracticeState {
+  clock: ClockState;
+  endedAt: number | undefined;
+}
+
 export interface TimedPractice {
   readonly total: number;
+  /** Serializable state, for restoring after the app was closed or reloaded. */
+  state(): PracticeState;
   pause(): void;
   resume(): void;
   /** Reschedules pending cues from the absolute clock. */
@@ -39,6 +47,10 @@ export interface PracticeDeps {
   /** Wall-clock milliseconds. */
   now(): number;
   player: CuePlayer;
+  /** Resume from a saved state instead of starting now. */
+  restore?: PracticeState;
+  /** Called after start, pause, resume and end, with the new state (for persistence). */
+  onChange?: (state: PracticeState) => void;
 }
 
 export function startTimedPractice(
@@ -47,24 +59,30 @@ export function startTimedPractice(
   deps: PracticeDeps,
 ): TimedPractice {
   const scheduler = createCueScheduler(cues, deps.player);
-  let clock: ClockState = startClock(deps.now());
-  let endedAt: number | undefined;
-  scheduler.schedule(0);
+  let clock: ClockState = deps.restore?.clock ?? startClock(deps.now());
+  let endedAt: number | undefined = deps.restore?.endedAt;
 
   const elapsed = () => Math.min(total, elapsedSeconds(clock, endedAt ?? deps.now()));
   const finished = () => endedAt !== undefined || elapsed() >= total;
+  const changed = () => deps.onChange?.({ clock, endedAt });
+
+  if (!finished() && !isPaused(clock)) scheduler.schedule(elapsed());
+  changed();
 
   return {
     total,
+    state: () => ({ clock, endedAt }),
     pause() {
       if (finished() || isPaused(clock)) return;
       clock = pauseClock(clock, deps.now());
       scheduler.cancel();
+      changed();
     },
     resume() {
       if (finished() || !isPaused(clock)) return;
       clock = resumeClock(clock, deps.now());
       scheduler.schedule(elapsed());
+      changed();
     },
     resync() {
       if (finished() || isPaused(clock)) return;
@@ -79,6 +97,7 @@ export function startTimedPractice(
         const closing = cues.find((c) => c.reason === 'end');
         if (closing) deps.player.play(closing, deps.player.now());
       }
+      changed();
     },
     snapshot() {
       const e = elapsed();
