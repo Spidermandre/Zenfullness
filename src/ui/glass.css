@@ -177,3 +177,7 @@
   padding: 0 var(--space-2);
   font-size: var(--fs-small);
 }
+
+.icon-btn.glass--night {
+  color: var(--night-ink);
+}

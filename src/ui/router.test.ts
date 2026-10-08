@@ -14,6 +14,7 @@ describe('parseRoute', () => {
     expect(parseRoute('#/guidate')).toBe('guided');
     expect(parseRoute('#/storico')).toBe('history');
     expect(parseRoute('#/impostazioni')).toBe('settings');
+    expect(parseRoute('#/paesaggio')).toBe('soundscape');
   });
 
   it('ignores trailing slashes, sub-paths and queries', () => {

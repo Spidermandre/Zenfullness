@@ -14,7 +14,7 @@ const OFFLINE_LABEL: Record<OfflineState, string> = {
 
 export function Settings() {
   const { offline } = useUpdateState();
-  const { bellVolume } = useSettings();
+  const { bellVolume, ambientVolume } = useSettings();
 
   const setBellVolume = (value: number) => {
     updateSettings((s) => ({ ...s, bellVolume: value }));
@@ -56,6 +56,23 @@ export function Settings() {
         >
           {t.settings.testBell}
         </button>
+      </div>
+      <div className="row">
+        <label htmlFor="ambient-volume-settings">{t.settings.ambientVolume}</label>
+        <input
+          id="ambient-volume-settings"
+          className="slider"
+          type="range"
+          min={0}
+          max={100}
+          step={5}
+          value={Math.round(ambientVolume * 100)}
+          onChange={(e) => {
+            const volume = Number(e.currentTarget.value) / 100;
+            updateSettings((s) => ({ ...s, ambientVolume: volume }));
+            setBusVolume('ambient', volume);
+          }}
+        />
       </div>
       <dl className="rows">
         <div className="row">

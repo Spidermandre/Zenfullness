@@ -11,6 +11,7 @@ import { keepScreenOn } from '../../timer/wakeLock';
 import { ScreenTitle } from '../components/ScreenTitle';
 import { formatClock, formatMinutes } from '../format';
 import { closePractice } from '../practice';
+import { PRACTICE_FADE_OUT, stopAmbient } from '../ambient';
 import { t } from '../strings.it';
 import { getSettings } from '../useSettings';
 
@@ -49,6 +50,11 @@ export function Sitting({ config, sitting }: { config: SittingConfig; sitting: S
   const refresh = useCallback(() => {
     setSnapshot(sitting.snapshot());
   }, [sitting]);
+
+  // The ambient soundscape fades out with the end of the sitting.
+  useEffect(() => {
+    if (config.ambient && snapshot.finished) stopAmbient(PRACTICE_FADE_OUT);
+  }, [config.ambient, snapshot.finished]);
 
   // Keep the screen on and mark a practice in progress until the sitting finishes.
   useEffect(() => {

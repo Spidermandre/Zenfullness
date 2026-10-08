@@ -4,6 +4,9 @@ import { SettingsIcon } from '../components/Icons';
 import { formatLongDate, greetingFor } from '../format';
 import { hrefFor } from '../router';
 import { t } from '../strings.it';
+import { useSettings } from '../useSettings';
+import { mixLabel } from '../../audio/soundscapes/mix';
+import type { Route } from '../router';
 
 const MINUTE = 60_000;
 
@@ -20,8 +23,26 @@ function useNow(intervalMs: number): Date {
   return now;
 }
 
+function OtherPractice({ route, title, detail }: { route: Route; title: string; detail: string }) {
+  return (
+    <li>
+      <a className="practice-row" href={hrefFor(route)}>
+        <span>
+          <span className="practice-row__title">{title}</span>
+          <span className="practice-row__detail">{detail}</span>
+        </span>
+        <span className="practice-row__chevron" aria-hidden="true">
+          ›
+        </span>
+      </a>
+    </li>
+  );
+}
+
 export function Today() {
   const now = useNow(MINUTE);
+  const { breath, mix } = useSettings();
+  const breathName = `${t.breath.name[breath.pattern]} · ${String(breath.minutes)} min`;
   return (
     <main className="screen">
       <header className="today-header">
@@ -33,7 +54,16 @@ export function Today() {
           <SettingsIcon />
         </a>
       </header>
-      <p className="muted">{t.placeholder.comingSoon}</p>
+      <h2 className="eyebrow section-label">{t.today.otherPractices}</h2>
+      <ul className="rows">
+        <OtherPractice route="breath" title={t.today.breathing} detail={breathName} />
+        <OtherPractice route="guided" title={t.today.guided} detail={t.today.guidedSoon} />
+        <OtherPractice
+          route="soundscape"
+          title={t.today.soundscape}
+          detail={mixLabel(mix, t.soundscape.names, t.soundscape.silence)}
+        />
+      </ul>
     </main>
   );
 }

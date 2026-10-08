@@ -17,6 +17,7 @@ import { keepScreenOn } from '../../timer/wakeLock';
 import { ScreenTitle } from '../components/ScreenTitle';
 import { formatMinutes } from '../format';
 import { closePractice, openPractice } from '../practice';
+import { PRACTICE_FADE_OUT, startAmbient, stopAmbient } from '../ambient';
 import { t } from '../strings.it';
 import { getSettings, updateSettings, useSettings } from '../useSettings';
 
@@ -216,6 +217,11 @@ export function Breath({
     setSnapshot(breathing?.snapshot());
   }, [breathing]);
 
+  // The ambient soundscape fades out with the end of the session.
+  useEffect(() => {
+    if (practice?.config.ambient && snapshot?.finished) stopAmbient(PRACTICE_FADE_OUT);
+  }, [practice?.config.ambient, snapshot?.finished]);
+
   // Wake lock + "practice in progress" while a session is open and not finished.
   useEffect(() => {
     if (!breathing || snapshot?.finished) return;
@@ -255,7 +261,9 @@ export function Breath({
       counting,
       minutes: breath.minutes,
       sound: breath.sound,
+      ambient: breath.ambient,
     };
+    if (config.ambient) startAmbient();
     setEditing(false);
     openPractice({ kind: 'breath', config, breathing: createBreathing(config) });
   };
@@ -354,6 +362,21 @@ export function Breath({
               }}
             >
               {t.breath.sound}
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              className="chip chip--night"
+              aria-pressed={breath.ambient}
+              onClick={() => {
+                updateSettings((s) => ({
+                  ...s,
+                  breath: { ...s.breath, ambient: !s.breath.ambient },
+                }));
+              }}
+            >
+              {t.breath.ambient}
             </button>
           </li>
           {canVibrate && (

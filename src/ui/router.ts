@@ -4,7 +4,15 @@ import { useSyncExternalStore } from 'react';
  * Minimal hash router. Hash URLs keep deep links working on GitHub Pages
  * (no server-side rewrites) and inside the installed PWA.
  */
-export const ROUTES = ['today', 'zazen', 'breath', 'guided', 'history', 'settings'] as const;
+export const ROUTES = [
+  'today',
+  'zazen',
+  'breath',
+  'guided',
+  'history',
+  'settings',
+  'soundscape',
+] as const;
 export type Route = (typeof ROUTES)[number];
 
 const PATHS: Record<Route, string> = {
@@ -14,6 +22,7 @@ const PATHS: Record<Route, string> = {
   guided: 'guidate',
   history: 'storico',
   settings: 'impostazioni',
+  soundscape: 'paesaggio',
 };
 
 export function parseRoute(hash: string): Route {

@@ -7,6 +7,7 @@ import { Breath } from './screens/Breath';
 import { Placeholder } from './screens/Placeholder';
 import { Settings } from './screens/Settings';
 import { Sitting } from './screens/Sitting';
+import { Soundscape } from './screens/Soundscape';
 import { Today } from './screens/Today';
 import { Zazen } from './screens/Zazen';
 import { t } from './strings.it';
@@ -25,6 +26,8 @@ function Screen({ route }: { route: Route }) {
       return <Placeholder title={t.tabs.history} />;
     case 'settings':
       return <Settings />;
+    case 'soundscape':
+      return <Soundscape />;
   }
 }
 
@@ -48,13 +51,14 @@ export function App() {
     );
   }
 
-  const night = route === 'breath';
+  const night = route === 'breath' || route === 'soundscape';
+  const tabs = route !== 'settings' && route !== 'soundscape';
   return (
     <div className={night ? 'app night breath' : 'app'}>
       {!night && <Blobs />}
       <UpdateNotice />
       <Screen key={route} route={route} />
-      {route !== 'settings' && <TabBar current={route} night={night} />}
+      {tabs && <TabBar current={route} night={night} />}
     </div>
   );
 }

@@ -6,7 +6,10 @@ test('opens on Oggi with date and greeting', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
     /Buongiorno|Buon pomeriggio|Buonasera/,
   );
-  await expect(page.getByRole('link', { name: 'Oggi' })).toHaveAttribute('aria-current', 'page');
+  await expect(page.getByRole('link', { name: 'Oggi', exact: true })).toHaveAttribute(
+    'aria-current',
+    'page',
+  );
 });
 
 test('navigates between tabs', async ({ page }) => {
@@ -33,7 +36,7 @@ test('settings are reachable by keyboard and back', async ({ page }) => {
   await page.keyboard.press('Enter');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Impostazioni');
   await page.getByRole('link', { name: 'Torna indietro' }).click();
-  await expect(page.getByRole('link', { name: 'Oggi' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Oggi', exact: true })).toBeVisible();
 });
 
 test('the page never contacts a third-party host', async ({ page }) => {

@@ -472,3 +472,91 @@ dl.rows dd {
 .tabbar--night a[aria-current='page'] {
   color: var(--night-ink);
 }
+
+/* ── Soundscape (added: not in design; Respiro night screen + rows + sliders) ── */
+.soundscape-screen {
+  padding-bottom: calc(var(--night-actions-bottom) + env(safe-area-inset-bottom));
+}
+
+.soundscape-header {
+  position: relative;
+  align-items: flex-start;
+}
+
+.soundscape-label {
+  position: relative;
+  margin: var(--space-4) 0 var(--space-1);
+  text-align: left;
+}
+
+.soundscape-layers {
+  position: relative;
+}
+
+.soundscape-layer {
+  padding-bottom: var(--space-1-5);
+  border-bottom: var(--hairline) solid var(--night-chip-border);
+}
+
+.soundscape-layer__toggle {
+  border-bottom: 0;
+  color: var(--night-ink);
+}
+
+.soundscape-layer__toggle .row__value,
+.soundscape-volume {
+  color: var(--night-ink-muted);
+}
+
+.soundscape-layer .slider {
+  width: 100%;
+}
+
+.slider--night {
+  accent-color: var(--night-ink-soft);
+}
+
+.slider--night:disabled {
+  opacity: 0.35;
+}
+
+.soundscape-volume {
+  position: relative;
+  border-bottom: 0;
+}
+
+.soundscape-note {
+  position: relative;
+  flex: 1;
+  margin-top: var(--space-2);
+  font-size: var(--fs-small);
+  color: var(--night-ink-muted);
+}
+
+/* ── Oggi: other practices (design 01) ───────────────────────────────── */
+.practice-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--row-pad-y) var(--space-half);
+  border-bottom: var(--hairline) solid var(--line);
+  text-decoration: none;
+}
+
+.practice-row__title {
+  display: block;
+  font-size: var(--fs-row);
+}
+
+.practice-row__detail {
+  display: block;
+  margin-top: var(--space-half);
+  font-size: var(--fs-small);
+  color: var(--ink-muted);
+}
+
+.practice-row__chevron {
+  font-size: var(--fs-chevron);
+  line-height: 1;
+  color: var(--ink-chevron);
+}

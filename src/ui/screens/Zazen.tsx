@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { strike, unlockAudio } from '../../audio/engine';
 import { samePeriods, type SavedPreset } from '../../storage/settings';
+import { mixLabel } from '../../audio/soundscapes/mix';
 import {
   clampMinutes,
   mainInstrument,
@@ -11,6 +12,7 @@ import {
 } from '../../timer/plan';
 import { ScreenTitle } from '../components/ScreenTitle';
 import { openPractice } from '../practice';
+import { startAmbient } from '../ambient';
 import { createSitting } from './Sitting';
 import { t } from '../strings.it';
 import { updateSettings, useSettings } from '../useSettings';
@@ -32,7 +34,7 @@ function setSitting(change: (s: SittingConfig) => SittingConfig): void {
 }
 
 export function Zazen() {
-  const { sitting, presets } = useSettings();
+  const { sitting, presets, mix } = useSettings();
   const { periods } = sitting;
   const [selected, setSelected] = useState(0);
   const index = Math.min(selected, periods.length - 1);
@@ -96,6 +98,7 @@ export function Zazen() {
 
   const start = () => {
     unlockAudio();
+    if (sitting.ambient) startAmbient();
     openPractice({ kind: 'sitting', config: sitting, sitting: createSitting(sitting) });
   };
 
@@ -253,6 +256,24 @@ export function Zazen() {
           >
             <span>{t.zazen.showTime}</span>
             <span className="row__value">{sitting.showTime ? t.zazen.yes : t.zazen.no}</span>
+          </button>
+        </li>
+        <li>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={sitting.ambient}
+            className="row row--button"
+            onClick={() => {
+              setSitting((s) => ({ ...s, ambient: !s.ambient }));
+            }}
+          >
+            <span>{t.zazen.ambient}</span>
+            <span className="row__value">
+              {sitting.ambient
+                ? mixLabel(mix, t.soundscape.names, t.soundscape.silence)
+                : t.zazen.no}
+            </span>
           </button>
         </li>
         {savedPreset ? (
