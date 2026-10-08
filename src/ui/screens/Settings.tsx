@@ -73,6 +73,7 @@ export function Settings() {
           }}
         />
       </div>
+      <p className="hint">{t.help.settingsVolumes}</p>
       <dl className="rows">
         <div className="row">
           <dt>{t.settings.offline}</dt>
@@ -85,6 +86,7 @@ export function Settings() {
           <dd className="row__value">{__APP_VERSION__}</dd>
         </div>
       </dl>
+      <p className="hint">{t.help.settingsOffline}</p>
     </main>
   );
 }

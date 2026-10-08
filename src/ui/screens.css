@@ -325,7 +325,18 @@ dl.rows dd {
   display: flex;
   align-items: center;
   justify-content: center;
+  /* At rest the sphere is drawn at about 0.78×; while breathing the chips are hidden. */
+  min-height: calc(var(--pacer-size) * 0.8);
+}
+
+.breath-screen--running .pacer {
   min-height: calc(var(--pacer-size) + var(--space-4));
+}
+
+/* At rest the sphere is drawn smaller (transform), but its layout box stays full size:
+   negative margins give the unused space back so Inizia stays above the tab bar. */
+.breath-screen:not(.breath-screen--running) .pacer__sphere {
+  margin-block: calc(var(--pacer-size) * -0.1);
 }
 
 /* No backdrop-filter here: the sphere animates every frame and the dark backdrop has
@@ -485,6 +496,8 @@ dl.rows dd {
 
 .soundscape-label {
   position: relative;
+  /* Sits over the green glow: the lighter night grey keeps AA contrast. */
+  color: var(--night-ink-muted);
   margin: var(--space-4) 0 var(--space-1);
   text-align: left;
 }
@@ -828,4 +841,61 @@ dl.rows dd {
   bottom: auto;
   margin-top: var(--space-2);
   text-align: center;
+}
+
+/* ── Explanations for newcomers (added): small, muted, never during a practice ── */
+.hint {
+  margin-top: var(--space-1);
+  font-size: var(--fs-small);
+  line-height: var(--lh-body);
+  color: var(--ink-muted);
+}
+
+.night .hint {
+  color: var(--night-ink-muted);
+}
+
+.hint--lead {
+  margin-top: var(--space-1-5);
+  max-width: var(--hint-max-width);
+}
+
+.hint--center {
+  text-align: center;
+}
+
+.row-hint {
+  margin: 0;
+  padding: 0 var(--space-half) var(--space-1-5);
+  border-bottom: var(--hairline) solid var(--line);
+  font-size: var(--fs-small);
+  line-height: var(--lh-body);
+  color: var(--ink-muted);
+}
+
+/* A row followed by its explanation: the divider moves below the explanation. */
+.row--button:has(+ .row-hint) {
+  padding-bottom: var(--space-half);
+  border-bottom: 0;
+}
+
+.rows--settings li:last-child .row-hint {
+  border-bottom: 0;
+}
+
+.breath-hint {
+  position: relative;
+  margin-top: var(--space-1-5);
+}
+
+.soundscape-hint {
+  position: relative;
+}
+
+.guided-card__description {
+  display: block;
+  margin-top: var(--space-half);
+  font-size: var(--fs-small);
+  line-height: var(--lh-body);
+  color: var(--ink-body);
 }

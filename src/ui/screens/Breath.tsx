@@ -288,6 +288,12 @@ export function Breath({
       <header className="breath-header">
         <ScreenTitle className="night-title">{t.breath.title}</ScreenTitle>
         <p className="breath-subtitle">{subtitle(patternId, phases)}</p>
+        {!running && (
+          <p className="hint breath-hint">
+            {t.help.breath[patternId]}
+            {patternId === 'susokukan' ? '' : ` ${t.help.breathHow}`}
+          </p>
+        )}
       </header>
 
       <Pacer breathing={breathing} counting={counting} />
@@ -391,6 +397,7 @@ export function Breath({
             </li>
           )}
         </ul>
+        <p className="hint hint--center">{t.help.breathOptions}</p>
       </div>
 
       {running && audioSuspended && (

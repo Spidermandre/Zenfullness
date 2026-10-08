@@ -99,3 +99,14 @@ test('reduced motion: the sphere keeps its size and breathes in brightness', asy
   expect(full[0]).toBe('scale(1)');
   expect(full[1]).toBeGreaterThan(Number(early[1]));
 });
+
+test('on an iPhone 14 Pro screen, Inizia is visible without scrolling', async ({ page }) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  for (const id of ['Susokukan', 'Quadrato', '4–6', '4–7–8', 'Coerenza', 'Personale']) {
+    await page.getByRole('button', { name: id, exact: true }).click();
+    if (id === 'Personale') await page.getByRole('button', { name: 'Fatto' }).click();
+    const start = await page.getByRole('button', { name: 'Inizia' }).boundingBox();
+    const tabbar = await page.getByRole('navigation').boundingBox();
+    expect(start && tabbar && start.y + start.height <= tabbar.y).toBe(true);
+  }
+});

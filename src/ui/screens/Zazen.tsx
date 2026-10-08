@@ -119,6 +119,7 @@ export function Zazen() {
   return (
     <main className="screen screen--with-action">
       <ScreenTitle>{t.zazen.title}</ScreenTitle>
+      <p className="hint hint--lead">{t.help.zazen}</p>
 
       <div className="stepper">
         <button
@@ -152,6 +153,7 @@ export function Zazen() {
         </button>
       </div>
 
+      <p className="hint hint--center">{t.help.duration}</p>
       <ul className="chips" aria-label={t.zazen.presets}>
         {durationChips.map((chip) => (
           <li key={chip.key}>
@@ -168,6 +170,7 @@ export function Zazen() {
       </ul>
 
       <h2 className="eyebrow section-label">{t.zazen.sequence}</h2>
+      <p className="hint">{t.help.sequence}</p>
       <ul className="rows">
         {periods.map((period, i) => (
           <li key={`${String(i)}-${period.kind}`}>
@@ -207,6 +210,7 @@ export function Zazen() {
       <ul className="rows rows--settings">
         <li>
           <button
+            aria-describedby="hint-prep"
             type="button"
             className="row row--button"
             onClick={() => {
@@ -218,15 +222,27 @@ export function Zazen() {
               {sitting.prepSeconds === 0 ? t.zazen.prepNone : `${String(sitting.prepSeconds)} s`}
             </span>
           </button>
-        </li>
-        <li>
-          <button type="button" className="row row--button" onClick={cycleBells}>
-            <span>{t.zazen.bells}</span>
-            <span className="row__value">{t.zazen.bellSets[sitting.bells]}</span>
-          </button>
+          <p id="hint-prep" className="row-hint">
+            {t.help.prep}
+          </p>
         </li>
         <li>
           <button
+            aria-describedby="hint-bells"
+            type="button"
+            className="row row--button"
+            onClick={cycleBells}
+          >
+            <span>{t.zazen.bells}</span>
+            <span className="row__value">{t.zazen.bellSets[sitting.bells]}</span>
+          </button>
+          <p id="hint-bells" className="row-hint">
+            {t.help.bells}
+          </p>
+        </li>
+        <li>
+          <button
+            aria-describedby="hint-mid"
             type="button"
             role="switch"
             aria-checked={sitting.midBell}
@@ -238,9 +254,13 @@ export function Zazen() {
             <span>{t.zazen.midBell}</span>
             <span className="row__value">{sitting.midBell ? t.zazen.yes : t.zazen.no}</span>
           </button>
+          <p id="hint-mid" className="row-hint">
+            {t.help.midBell}
+          </p>
         </li>
         <li>
           <button
+            aria-describedby="hint-time"
             type="button"
             role="switch"
             aria-checked={sitting.showTime}
@@ -252,9 +272,13 @@ export function Zazen() {
             <span>{t.zazen.showTime}</span>
             <span className="row__value">{sitting.showTime ? t.zazen.yes : t.zazen.no}</span>
           </button>
+          <p id="hint-time" className="row-hint">
+            {t.help.showTime}
+          </p>
         </li>
         <li>
           <button
+            aria-describedby="hint-ambient"
             type="button"
             role="switch"
             aria-checked={sitting.ambient}
@@ -270,6 +294,9 @@ export function Zazen() {
                 : t.zazen.no}
             </span>
           </button>
+          <p id="hint-ambient" className="row-hint">
+            {t.help.ambient}
+          </p>
         </li>
         {savedPreset ? (
           <li>
@@ -286,9 +313,17 @@ export function Zazen() {
         ) : (
           !isBuiltIn && (
             <li>
-              <button type="button" className="row row--button row--action" onClick={savePreset}>
+              <button
+                aria-describedby="hint-save"
+                type="button"
+                className="row row--button row--action"
+                onClick={savePreset}
+              >
                 <span>{t.zazen.savePreset}</span>
               </button>
+              <p id="hint-save" className="row-hint">
+                {t.help.savePreset}
+              </p>
             </li>
           )
         )}

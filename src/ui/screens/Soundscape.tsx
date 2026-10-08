@@ -53,6 +53,8 @@ export function Soundscape() {
         </div>
       </header>
 
+      <p className="hint soundscape-hint">{t.help.soundscape}</p>
+
       <h2 className="night-label soundscape-label">{t.soundscape.layers}</h2>
       <ul className="rows soundscape-layers">
         {LAYER_IDS.map((id) => (

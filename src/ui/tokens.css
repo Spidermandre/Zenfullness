@@ -127,7 +127,8 @@
   --radius-hero-card: 32px;
   --radius-pill: 999px;
   --radius-device: 48px;
-  --app-max-width: 480px; /* added: centred column on desktop */
+  --app-max-width: 480px;
+  --hint-max-width: 34em; /* added: comfortable line length for explanations */ /* added: centred column on desktop */
   --icon-button: 44px; /* added: settings/close buttons; ≥ 24px target (WCAG 2.5.8) */
   --stepper: 56px;
   --play-button: 40px;
