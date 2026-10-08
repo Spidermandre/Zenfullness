@@ -53,6 +53,31 @@ Wake Lock available in standalone mode since iOS 18.4). Android Chrome is the se
   404 for requests with `Sec-Fetch-Dest: script`). Mirrors Pages: `/Zenfullness/` base.
 - **Git flow:** work on the feature branch, one PR into `main` per stage; `main` deploys.
 
+## Timer and audio (stage 2)
+
+- `timer/plan.ts` turns a `SittingConfig` into segments + cues (offsets in seconds).
+  Traditional counts: 3 strikes open each zazen, 2 open kinhin, 1 closes; optional soft
+  mid-zazen strike. Bell sets change the instrument only (bowl / inkin / han+mokugyo).
+- `timer/clock.ts`: elapsed time = f(Date.now(), startedAt, pauses). Never count ticks.
+- `timer/scheduler.ts`: all future cues go to the AudioContext clock up front;
+  `audioTime = ctx.currentTime + (cue.at − elapsed)`. Pause cancels unstarted strikes;
+  resume/resync reschedules; a strike that already began is never repeated; cues more
+  than 0.5 s late are skipped.
+- `timer/session.ts`: framework-free sitting (start, pause, resume, resync, end). The UI
+  calls `resync()` on `visibilitychange` and on AudioContext `statechange` → running.
+  The sitting is created in the tap handler (outside React render) so StrictMode
+  double-render can never start two schedulers.
+- `audio/instruments.ts`: pure modal-synthesis recipes (inharmonic modes, frequency-
+  dependent decay, doublets for beating, mallet noise, per-strike random variation).
+  `audio/render.ts` turns a spec into Web Audio nodes; `audio/engine.ts` owns the single
+  AudioContext, buses (bells, ambient) and a limiter. `unlockAudio()` must run inside the
+  user's tap; it also sets `navigator.audioSession.type = 'playback'` (iOS silent switch).
+- `timer/wakeLock.ts`: Screen Wake Lock, re-acquired on visibility; canvas-stream video
+  fallback only when the API is missing or refuses.
+- Sitting presets and the last configuration live in localStorage settings
+  (`storage/settings.ts`, validated field by field). They are part of the future export.
+- e2e uses `page.clock` to fast-forward sittings; don't use `waitForTimeout` with it.
+
 ## Product decisions (from the user)
 
 - Settings: glass icon button top-right on Oggi (tab bar keeps the 5 design tabs).
@@ -81,3 +106,8 @@ Wake Lock available in standalone mode since iOS 18.4). Android Chrome is the se
 
 1. **Base, tokens, PWA, Pages** — done. App shell (tab bar, Oggi header, Impostazioni with
    offline status and version), placeholders for other tabs, CI + Pages deploy.
+2. **Timer engine, silent zazen, synthesized bells** — done. Zazen setup (stepper, duration
+   chips + saved sequences, zazen/kinhin sequence, preparation, bell set, mid bell, show
+   time), night sitting screen (label, static ring, Pausa/Riprendi, two-tap Termina), end
+   screen with practised duration, bell volume + test in Impostazioni. Sittings are not yet
+   recorded (stage 6).
