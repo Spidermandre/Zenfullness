@@ -6,6 +6,7 @@ import {
   type LogEntry,
   type PracticeKind,
 } from '../storage/log';
+import { clearActive } from './persist';
 
 /**
  * Bridge between practices and the log: records a finished practice once, notifies
@@ -109,7 +110,11 @@ export function useRecordOnFinish(
   useEffect(() => {
     if (!finished || recorded.current) return;
     recorded.current = true;
-    void recordPractice(latest.current()).then(setId);
+    void recordPractice(latest.current()).then((saved) => {
+      // Recorded (or too short to record): nothing left to restore after a reload.
+      clearActive();
+      setId(saved);
+    });
   }, [finished]);
   return id;
 }

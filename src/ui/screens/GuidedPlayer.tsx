@@ -1,16 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { getEngine } from '../../audio/engine';
-import { activity } from '../../pwa/activity';
+import { resumeAudio } from '../../audio/engine';
 import { createRecording, type Recording } from '../../sessions/recording';
 import type { Guided } from '../../sessions/session';
 import { speak, stopSpeech } from '../../sessions/speech';
-import { keepScreenOn } from '../../timer/wakeLock';
 import { PRACTICE_FADE_OUT, stopAmbient } from '../ambient';
 import { EndScreen } from '../components/EndScreen';
 import { ScreenTitle } from '../components/ScreenTitle';
 import { useRecordOnFinish } from '../record';
 import { closePractice } from '../practice';
 import { t } from '../strings.it';
+import { usePracticeLifecycle } from '../usePracticeLifecycle';
 
 const TICK_MS = 250;
 const CONFIRM_MS = 4000;
@@ -79,33 +78,20 @@ export function GuidedPlayer({
     if (ambient) stopAmbient(PRACTICE_FADE_OUT);
   }, [snapshot.finished, ambient]);
 
+  const audioSuspended = usePracticeLifecycle(guided, snapshot.finished, refresh, TICK_MS);
+
+  // After the page was hidden, bring a recording back in line with the clock.
   useEffect(() => {
     if (snapshot.finished) return;
-    const endActivity = activity.begin();
-    const wakeLock = keepScreenOn();
-    const id = window.setInterval(refresh, TICK_MS);
-    const { ctx } = getEngine();
     const onVisible = () => {
-      if (document.visibilityState !== 'visible') return;
-      if (ctx.state !== 'running') void ctx.resume().catch(() => undefined);
-      guided.resync();
-      const snap = guided.snapshot();
-      recording.current?.sync(snap.elapsed);
-      setSnapshot(snap);
-    };
-    const onState = () => {
-      if (ctx.state === 'running') guided.resync();
+      if (document.visibilityState === 'visible')
+        recording.current?.sync(guided.snapshot().elapsed);
     };
     document.addEventListener('visibilitychange', onVisible);
-    ctx.addEventListener('statechange', onState);
     return () => {
-      window.clearInterval(id);
       document.removeEventListener('visibilitychange', onVisible);
-      ctx.removeEventListener('statechange', onState);
-      wakeLock.release();
-      endActivity();
     };
-  }, [guided, snapshot.finished, refresh]);
+  }, [guided, snapshot.finished]);
 
   useEffect(() => {
     if (!confirming) return;
@@ -151,7 +137,8 @@ export function GuidedPlayer({
   }
 
   return (
-    <main className="night-screen">
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions -- the tap only revives audio; all controls are buttons
+    <main className="night-screen" onClick={resumeAudio}>
       <ScreenTitle className="night-label night-label--top">
         {snapshot.paused ? t.sitting.paused : `${t.guided.label} · ${session.title}`}
       </ScreenTitle>
@@ -163,6 +150,11 @@ export function GuidedPlayer({
           </p>
         )}
       </div>
+      {audioSuspended && (
+        <p className="night-notice" role="status">
+          {t.sitting.audioBlocked}
+        </p>
+      )}
       <div className="night-actions">
         <button type="button" className="btn glass glass--night" onClick={togglePause}>
           {snapshot.paused ? t.sitting.resume : t.sitting.pause}

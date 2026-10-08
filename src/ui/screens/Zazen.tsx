@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { strike, unlockAudio } from '../../audio/engine';
+import { strikeNow } from '../../audio/engine';
 import { samePeriods, type SavedPreset } from '../../storage/settings';
 import { mixLabel } from '../../audio/soundscapes/mix';
 import {
@@ -90,8 +90,7 @@ export function Zazen() {
     const bells = next(BELL_SETS, sitting.bells);
     setSitting((s) => ({ ...s, bells }));
     // Preview the new sound; the tap is the user gesture that allows audio.
-    const ctx = unlockAudio();
-    strike(mainInstrument(bells), ctx.currentTime);
+    strikeNow(mainInstrument(bells));
   };
 
   const start = () => {

@@ -820,3 +820,12 @@ dl.rows dd {
   font-size: var(--fs-small);
   color: var(--ink-muted);
 }
+
+.night-notice--inline {
+  position: relative;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  margin-top: var(--space-2);
+  text-align: center;
+}

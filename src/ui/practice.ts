@@ -1,4 +1,5 @@
 import { useSyncExternalStore } from 'react';
+import { clearActive } from './persist';
 import type { SittingConfig } from '../timer/plan';
 import type { Sitting } from '../timer/session';
 import type { BreathConfig, Breathing } from '../breath/session';
@@ -22,12 +23,18 @@ export type Practice =
 let current: Practice;
 const listeners = new Set<() => void>();
 
+/** The practice on screen, if any. */
+export function currentPractice(): Practice {
+  return current;
+}
+
 export function openPractice(practice: Practice): void {
   current = practice;
   for (const listener of listeners) listener();
 }
 
 export function closePractice(): void {
+  clearActive();
   openPractice(undefined);
 }
 

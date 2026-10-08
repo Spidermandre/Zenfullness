@@ -1,13 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
-import { getEngine, setBusVolume, strike } from '../../audio/engine';
-import { activity } from '../../pwa/activity';
+import { cuePlayer, resumeAudio, setBusVolume } from '../../audio/engine';
 import type { SittingConfig } from '../../timer/plan';
+import type { PracticeDeps } from '../../timer/practice';
 import {
   startSitting,
   type Sitting as SittingModel,
   type SittingSnapshot,
 } from '../../timer/session';
-import { keepScreenOn } from '../../timer/wakeLock';
 import { EndScreen } from '../components/EndScreen';
 import { ScreenTitle } from '../components/ScreenTitle';
 import { useRecordOnFinish } from '../record';
@@ -16,6 +15,7 @@ import { closePractice } from '../practice';
 import { PRACTICE_FADE_OUT, stopAmbient } from '../ambient';
 import { t } from '../strings.it';
 import { getSettings } from '../useSettings';
+import { usePracticeLifecycle } from '../usePracticeLifecycle';
 
 const TICK_MS = 1000;
 const CONFIRM_MS = 4000;
@@ -32,16 +32,12 @@ function label(snapshot: SittingSnapshot, periodCount: number): string {
 }
 
 /** Starts a sitting with real time and real sound. Call from the user's tap. */
-export function createSitting(config: SittingConfig): SittingModel {
-  const { ctx } = getEngine();
+export function createSitting(
+  config: SittingConfig,
+  extra: Pick<PracticeDeps, 'restore' | 'onChange'> = {},
+): SittingModel {
   setBusVolume('bells', getSettings().bellVolume);
-  return startSitting(config, {
-    now: () => Date.now(),
-    player: {
-      now: () => ctx.currentTime,
-      play: (cue, when) => strike(cue.instrument, when, Math.random, cue.gain),
-    },
-  });
+  return startSitting(config, { now: () => Date.now(), player: cuePlayer(), ...extra });
 }
 
 export function Sitting({
@@ -55,7 +51,6 @@ export function Sitting({
 }) {
   const [snapshot, setSnapshot] = useState(() => sitting.snapshot());
   const [confirming, setConfirming] = useState(false);
-  const [audioSuspended, setAudioSuspended] = useState(false);
 
   const refresh = useCallback(() => {
     setSnapshot(sitting.snapshot());
@@ -79,45 +74,7 @@ export function Sitting({
     if (config.ambient && snapshot.finished) stopAmbient(PRACTICE_FADE_OUT);
   }, [config.ambient, snapshot.finished]);
 
-  // Keep the screen on and mark a practice in progress until the sitting finishes.
-  useEffect(() => {
-    if (snapshot.finished) return;
-    const endActivity = activity.begin();
-    const wakeLock = keepScreenOn();
-    return () => {
-      wakeLock.release();
-      endActivity();
-    };
-  }, [snapshot.finished]);
-
-  // Display tick. Timing never depends on it: state is derived from absolute instants.
-  useEffect(() => {
-    const id = window.setInterval(refresh, TICK_MS);
-    return () => {
-      window.clearInterval(id);
-    };
-  }, [refresh]);
-
-  // Recover after the page was hidden or the audio context was interrupted (iOS).
-  useEffect(() => {
-    const { ctx } = getEngine();
-    const onVisible = () => {
-      if (document.visibilityState !== 'visible') return;
-      if (ctx.state !== 'running') void ctx.resume().catch(() => undefined);
-      sitting.resync();
-      refresh();
-    };
-    const onState = () => {
-      setAudioSuspended(ctx.state !== 'running');
-      if (ctx.state === 'running') sitting.resync();
-    };
-    document.addEventListener('visibilitychange', onVisible);
-    ctx.addEventListener('statechange', onState);
-    return () => {
-      document.removeEventListener('visibilitychange', onVisible);
-      ctx.removeEventListener('statechange', onState);
-    };
-  }, [sitting, refresh]);
+  const audioSuspended = usePracticeLifecycle(sitting, snapshot.finished, refresh, TICK_MS);
 
   useEffect(() => {
     if (!confirming) return;
@@ -146,8 +103,7 @@ export function Sitting({
 
   /** Any tap is a user gesture: use it to revive a suspended audio context. */
   const wake = () => {
-    const { ctx } = getEngine();
-    if (ctx.state !== 'running') void ctx.resume().catch(() => undefined);
+    resumeAudio();
   };
 
   if (snapshot.finished) {

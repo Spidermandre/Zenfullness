@@ -1,39 +1,9 @@
-import { getEngine, setBusVolume, strike, unlockAudio } from '../../audio/engine';
 import { CATALOG } from '../../sessions/catalog';
-import type { GuidedSession } from '../../sessions/format';
-import { startGuided } from '../../sessions/session';
-import { isSpeechSupported, unlockSpeech } from '../../sessions/speech';
-import { startAmbient } from '../ambient';
+import { isSpeechSupported } from '../../sessions/speech';
+import { launchGuided } from '../launch';
 import { ScreenTitle } from '../components/ScreenTitle';
-import { openPractice } from '../practice';
 import { t } from '../strings.it';
-import { getSettings, updateSettings, useSettings } from '../useSettings';
-
-export function launchGuided(session: GuidedSession): void {
-  // Everything below runs inside the tap: iOS allows audio and speech only from a gesture.
-  unlockAudio();
-  const settings = getSettings();
-  const voice = settings.guided.voice && isSpeechSupported() && !session.audio;
-  if (voice) unlockSpeech();
-  if (settings.guided.ambient) startAmbient();
-  setBusVolume('bells', settings.bellVolume);
-  const { ctx } = getEngine();
-  const guided = startGuided(session, {
-    now: () => Date.now(),
-    player: {
-      now: () => ctx.currentTime,
-      play: (cue, when) => strike(cue.instrument, when, Math.random, cue.gain),
-    },
-  });
-  updateSettings((s) => ({ ...s, guided: { ...s.guided, last: session.id } }));
-  openPractice({
-    kind: 'guided',
-    guided,
-    voice,
-    ambient: settings.guided.ambient,
-    startedAt: Date.now(),
-  });
-}
+import { updateSettings, useSettings } from '../useSettings';
 
 /** Design 05: glass cards with title, duration and a play button. */
 export function Guided() {

@@ -3,7 +3,7 @@ import { ScreenTitle } from '../components/ScreenTitle';
 import { hrefFor } from '../router';
 import { t } from '../strings.it';
 import { useUpdateState, type OfflineState } from '../../pwa/update';
-import { setBusVolume, strike, unlockAudio } from '../../audio/engine';
+import { setBusVolume, strikeNow } from '../../audio/engine';
 import { updateSettings, useSettings } from '../useSettings';
 
 const OFFLINE_LABEL: Record<OfflineState, string> = {
@@ -22,9 +22,8 @@ export function Settings() {
   };
 
   const testBell = () => {
-    const ctx = unlockAudio();
     setBusVolume('bells', bellVolume);
-    strike('bowl', ctx.currentTime);
+    strikeNow('bowl');
   };
   return (
     <main className="screen">

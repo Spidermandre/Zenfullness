@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { getEngine, setBusVolume, strike } from '../../audio/engine';
+import { cuePlayer, resumeAudio, setBusVolume } from '../../audio/engine';
 import {
   BUILT_IN,
   breathsPerMinute,
@@ -11,9 +11,8 @@ import {
   type Phases,
 } from '../../breath/patterns';
 import { startBreathing, type BreathConfig, type Breathing } from '../../breath/session';
-import { activity } from '../../pwa/activity';
 import { BREATH_MINUTES } from '../../storage/settings';
-import { keepScreenOn } from '../../timer/wakeLock';
+import type { PracticeDeps } from '../../timer/practice';
 import { EndScreen } from '../components/EndScreen';
 import { ScreenTitle } from '../components/ScreenTitle';
 import { useRecordOnFinish } from '../record';
@@ -22,6 +21,7 @@ import { launchBreath } from '../launch';
 import { PRACTICE_FADE_OUT, stopAmbient } from '../ambient';
 import { t } from '../strings.it';
 import { getSettings, updateSettings, useSettings } from '../useSettings';
+import { usePracticeLifecycle } from '../usePracticeLifecycle';
 
 const PATTERN_IDS: readonly PatternId[] = [
   'susokukan',
@@ -47,16 +47,12 @@ export function subtitle(id: PatternId, phases: Phases): string {
   return `${name} · ${parts.join('–')}`;
 }
 
-export function createBreathing(config: BreathConfig): Breathing {
-  const { ctx } = getEngine();
+export function createBreathing(
+  config: BreathConfig,
+  extra: Pick<PracticeDeps, 'restore' | 'onChange'> = {},
+): Breathing {
   setBusVolume('bells', getSettings().bellVolume);
-  return startBreathing(config, {
-    now: () => Date.now(),
-    player: {
-      now: () => ctx.currentTime,
-      play: (cue, when) => strike(cue.instrument, when, Math.random, cue.gain),
-    },
-  });
+  return startBreathing(config, { now: () => Date.now(), player: cuePlayer(), ...extra });
 }
 
 function useReducedMotion(): boolean {
@@ -237,32 +233,7 @@ export function Breath({
     if (practice?.config.ambient && snapshot?.finished) stopAmbient(PRACTICE_FADE_OUT);
   }, [practice?.config.ambient, snapshot?.finished]);
 
-  // Wake lock + "practice in progress" while a session is open and not finished.
-  useEffect(() => {
-    if (!breathing || snapshot?.finished) return;
-    const endActivity = activity.begin();
-    const wakeLock = keepScreenOn();
-    const id = window.setInterval(refresh, 1000);
-    const { ctx } = getEngine();
-    const onVisible = () => {
-      if (document.visibilityState !== 'visible') return;
-      if (ctx.state !== 'running') void ctx.resume().catch(() => undefined);
-      breathing.resync();
-      refresh();
-    };
-    const onState = () => {
-      if (ctx.state === 'running') breathing.resync();
-    };
-    document.addEventListener('visibilitychange', onVisible);
-    ctx.addEventListener('statechange', onState);
-    return () => {
-      window.clearInterval(id);
-      document.removeEventListener('visibilitychange', onVisible);
-      ctx.removeEventListener('statechange', onState);
-      wakeLock.release();
-      endActivity();
-    };
-  }, [breathing, snapshot?.finished, refresh]);
+  const audioSuspended = usePracticeLifecycle(breathing, snapshot?.finished === true, refresh);
 
   const choose = (id: PatternId) => {
     updateSettings((s) => ({ ...s, breath: { ...s.breath, pattern: id } }));
@@ -308,7 +279,11 @@ export function Breath({
   const patternId = breath.pattern;
 
   return (
-    <main className={`breath-screen${running ? ' breath-screen--running' : ''}`}>
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions -- the tap only revives audio; all controls are buttons
+    <main
+      className={`breath-screen${running ? ' breath-screen--running' : ''}`}
+      onClick={running ? resumeAudio : undefined}
+    >
       <div className="breath-glow" aria-hidden="true" />
       <header className="breath-header">
         <ScreenTitle className="night-title">{t.breath.title}</ScreenTitle>
@@ -418,6 +393,11 @@ export function Breath({
         </ul>
       </div>
 
+      {running && audioSuspended && (
+        <p className="night-notice night-notice--inline" role="status">
+          {t.sitting.audioBlocked}
+        </p>
+      )}
       <div className={`breath-actions${running ? ' breath-actions--running' : ''}`}>
         {!practice && (
           <button
