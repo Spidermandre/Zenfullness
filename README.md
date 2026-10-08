@@ -93,18 +93,32 @@ Source: GitHub Actions**.
 
 Bersagli principali: Safari su iOS (riferimento: iPhone 14 Pro con iOS 27) e Chrome su Android.
 
-| Limite                                    | Comportamento dell'app                                                                                        |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| L'audio parte solo dopo un gesto          | L'audio si sblocca al tocco su "Inizia"; nessun suono parte da solo.                                          |
-| Interruttore silenzioso di iPhone         | `navigator.audioSession.type = 'playback'` (iOS 17+) fa suonare le campane anche in modalità silenziosa.      |
-| Timer in background rallentati            | Lo stato si calcola sempre da istanti assoluti; le campane sono programmate sull'orologio dell'AudioContext.  |
-| Schermo bloccato: iOS sospende l'audio    | Wake Lock tiene lo schermo acceso e viene riacquisito al ritorno in primo piano.                              |
-| Wake Lock assente o non affidabile        | Ripiego: video muto e invisibile in loop. Su iOS 27 il Wake Lock standard funziona anche nell'app installata. |
-| Vibrazione assente su iOS                 | Solo segnali visivi e sonori.                                                                                 |
-| Sintesi vocale su iOS solo dopo un tocco  | La voce si sblocca sul tocco di avvio; senza voci italiane le istruzioni restano solo testo.                  |
-| Aggiornamento dell'app durante una seduta | La nuova versione aspetta: viene proposta solo quando nessuna pratica è in corso.                             |
+| Limite                                                       | Comportamento dell'app                                                                                                                                   |
+| ------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| L'audio parte solo dopo un gesto                             | L'audio si sblocca al tocco su "Inizia"; nessun suono parte da solo.                                                                                     |
+| Interruttore silenzioso di iPhone                            | `navigator.audioSession.type = 'playback'` (iOS 17+) fa suonare le campane anche in modalità silenziosa.                                                 |
+| Timer in background rallentati                               | Lo stato si calcola sempre da istanti assoluti; le campane sono programmate sull'orologio dell'AudioContext.                                             |
+| Schermo bloccato: iOS sospende l'audio                       | Wake Lock tiene lo schermo acceso e viene riacquisito al ritorno in primo piano.                                                                         |
+| Wake Lock assente o non affidabile                           | Ripiego: video muto e invisibile in loop. Su iOS 27 il Wake Lock standard funziona anche nell'app installata.                                            |
+| Vibrazione assente su iOS                                    | Solo segnali visivi e sonori.                                                                                                                            |
+| Sintesi vocale su iOS solo dopo un tocco                     | La voce si sblocca sul tocco di avvio; senza voci italiane le istruzioni restano solo testo.                                                             |
+| Aggiornamento dell'app durante una seduta                    | La nuova versione aspetta: viene proposta solo quando nessuna pratica è in corso.                                                                        |
+| iOS chiude l'app durante una seduta, o la pagina si ricarica | Alla riapertura la pratica riprende dall'orologio assoluto; un tocco riattiva l'audio. Se la fine è passata da più di 10 minuti, non viene ripristinata. |
+| Browser senza Web Audio                                      | Le pratiche funzionano in silenzio, con lo stesso timer.                                                                                                 |
+| Doppio tocco su "Inizia"                                     | Ignorato: una sola pratica, una sola serie di campane.                                                                                                   |
 
 I dettagli tecnici si aggiornano a ogni tappa.
+
+## Accessibilità e prestazioni
+
+- `npm run e2e` include un audit WCAG 2.2 A/AA (axe-core) di ogni schermata, nei temi giorno e
+  notte e durante le pratiche, e verifica che a 320 px di larghezza non ci sia scorrimento
+  orizzontale. Navigazione completa da tastiera; `prefers-reduced-motion` e
+  `prefers-reduced-transparency` rispettati.
+- `npm run perf` misura la fluidità del pacer del respiro con CPU rallentata 4×
+  (95° percentile ≈ 16,8 ms per fotogramma, cioè 60 fps). Non gira in CI: le macchine
+  condivise sono troppo variabili.
+- Prima apertura: circa 94 kB di JavaScript e 5 kB di CSS compressi; poi tutto dalla cache.
 
 ## Privacy
 

@@ -160,6 +160,24 @@ Wake Lock available in standalone mode since iOS 18.4). Android Chrome is the se
 - `ui/launch.ts` starts any practice from a tap (Zazen, Respiro, Guidate, Oggi card).
 - e2e `helpers.ts#seedLog` writes log entries straight into IndexedDB.
 
+## Polish (stage 9)
+
+- `audio/engine.ts` degrades to silent no-ops without Web Audio; UI never touches the
+  AudioContext directly: use `cuePlayer`, `audioNow`, `strikeNow`, `resumeAudio`,
+  `onAudioState`, `isAudioRunning`.
+- `ui/usePracticeLifecycle.ts`: shared activity guard + wake lock + display tick +
+  resync on visibility/audio resume + "audio suspended" notice (checked after 1.5 s).
+- Restore: every timed practice reports state changes (`PracticeDeps.onChange`);
+  `ui/persist.ts` saves them; `restorePractice()` (called in `main.tsx`) rebuilds the
+  practice from the absolute clock unless it ended > 10 min ago or was paused > 12 h.
+  Never build a practice just to measure it (it would schedule bells): use the pure
+  plans. Saved state is cleared when the practice is recorded or closed. Ambient
+  soundscapes are not restored.
+- `launch*` ignore a tap while a practice is open (no double schedulers).
+- a11y: `e2e/a11y.spec.ts` (axe, WCAG 2.2 AA tags; the fake clock must keep running for
+  axe). Section labels use `--ink-label` (#4A554E) to stay ≥ 4.5:1 over the sage blob.
+- Perf: `npm run perf` (`@perf`, excluded from CI by `grepInvert`).
+
 ## Product decisions (from the user)
 
 - **No import/export.** Stage 6 is history and stats only: no backup file, no import.
@@ -189,6 +207,7 @@ Wake Lock available in standalone mode since iOS 18.4). Android Chrome is the se
 | vitest                                                     | unit tests                                             |
 | @playwright/test                                           | e2e (pinned 1.56.1 to match the preinstalled Chromium) |
 | @types/node                                                | types for tests/config                                 |
+| @axe-core/playwright (dev)                                 | WCAG audit in e2e                                      |
 | fake-indexeddb (dev)                                       | IndexedDB in Vitest (storage + migration tests)        |
 
 ## Stage log
@@ -212,3 +231,7 @@ Wake Lock available in standalone mode since iOS 18.4). Android Chrome is the se
    migrations, note on the end screen, Storico per design.
 7. **Adaptive path** — done. Rule module + RULES.md + tests; "Pratica di oggi" card with
    Inizia (starts the proposal directly) and Perché?.
+8. **Biofeedback** — dropped by the user.
+9. **Polish** — done. axe WCAG 2.2 AA audit on every screen, 320 px reflow, pacer 60 fps
+   at 4× CPU throttle, restore after reload/app kill, silent fallback without Web Audio,
+   double-tap guard, shared practice lifecycle hook.
