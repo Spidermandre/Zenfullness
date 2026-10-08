@@ -2,6 +2,7 @@ import { useSyncExternalStore } from 'react';
 import type { SittingConfig } from '../timer/plan';
 import type { Sitting } from '../timer/session';
 import type { BreathConfig, Breathing } from '../breath/session';
+import type { Guided } from '../sessions/session';
 
 /**
  * Which full-screen practice (if any) is on screen. Practices take over the whole app:
@@ -10,6 +11,7 @@ import type { BreathConfig, Breathing } from '../breath/session';
 export type Practice =
   | { kind: 'sitting'; config: SittingConfig; sitting: Sitting }
   | { kind: 'breath'; config: BreathConfig; breathing: Breathing }
+  | { kind: 'guided'; guided: Guided; voice: boolean; ambient: boolean }
   | undefined;
 
 let current: Practice;

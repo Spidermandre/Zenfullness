@@ -21,6 +21,14 @@ export interface BreathSettings {
   ambient: boolean;
 }
 
+export interface GuidedSettings {
+  /** Read instructions aloud (text-to-speech) when a session has no recording. */
+  voice: boolean;
+  ambient: boolean;
+  /** Last session played, shown on Oggi. */
+  last: string;
+}
+
 export interface Settings {
   version: 1;
   /** 0..1 */
@@ -33,6 +41,7 @@ export interface Settings {
   breath: BreathSettings;
   /** Soundscape layers and their levels. */
   mix: Mix;
+  guided: GuidedSettings;
 }
 
 export const BREATH_MINUTES: readonly number[] = [3, 6, 10, 15, 20];
@@ -61,6 +70,7 @@ export const DEFAULT_SETTINGS: Settings = {
     ambient: false,
   },
   mix: DEFAULT_MIX,
+  guided: { voice: true, ambient: false, last: 'consapevolezza-del-respiro' },
 };
 
 type Unknown = Record<string, unknown>;
@@ -136,6 +146,16 @@ function mix(v: unknown): Mix {
   return out;
 }
 
+function guided(v: unknown): GuidedSettings {
+  const d = DEFAULT_SETTINGS.guided;
+  if (!isObject(v)) return d;
+  return {
+    voice: bool(v.voice, d.voice),
+    ambient: bool(v.ambient, d.ambient),
+    last: typeof v.last === 'string' && v.last.length < 200 ? v.last : d.last,
+  };
+}
+
 export function parseSettings(raw: unknown): Settings {
   if (!isObject(raw)) return DEFAULT_SETTINGS;
   const presets = Array.isArray(raw.presets)
@@ -153,6 +173,7 @@ export function parseSettings(raw: unknown): Settings {
     presets,
     breath: breath(raw.breath),
     mix: mix(raw.mix),
+    guided: guided(raw.guided),
   };
 }
 

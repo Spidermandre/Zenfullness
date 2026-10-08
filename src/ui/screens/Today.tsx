@@ -6,6 +6,7 @@ import { hrefFor } from '../router';
 import { t } from '../strings.it';
 import { useSettings } from '../useSettings';
 import { mixLabel } from '../../audio/soundscapes/mix';
+import { CATALOG, findSession } from '../../sessions/catalog';
 import type { Route } from '../router';
 
 const MINUTE = 60_000;
@@ -41,7 +42,8 @@ function OtherPractice({ route, title, detail }: { route: Route; title: string; 
 
 export function Today() {
   const now = useNow(MINUTE);
-  const { breath, mix } = useSettings();
+  const { breath, mix, guided } = useSettings();
+  const lastGuided = findSession(guided.last) ?? CATALOG[0];
   const breathName = `${t.breath.name[breath.pattern]} · ${String(breath.minutes)} min`;
   return (
     <main className="screen">
@@ -57,7 +59,11 @@ export function Today() {
       <h2 className="eyebrow section-label">{t.today.otherPractices}</h2>
       <ul className="rows">
         <OtherPractice route="breath" title={t.today.breathing} detail={breathName} />
-        <OtherPractice route="guided" title={t.today.guided} detail={t.today.guidedSoon} />
+        <OtherPractice
+          route="guided"
+          title={t.today.guided}
+          detail={lastGuided ? `${lastGuided.title} · ${String(lastGuided.minutes)} min` : ''}
+        />
         <OtherPractice
           route="soundscape"
           title={t.today.soundscape}

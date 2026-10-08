@@ -21,7 +21,6 @@ export const t = {
     otherPractices: 'Altre pratiche',
     breathing: 'Respirazione',
     guided: 'Guidata',
-    guidedSoon: 'Meditazioni guidate',
     soundscape: 'Paesaggio sonoro',
   },
   soundscape: {
@@ -139,6 +138,18 @@ export const t = {
     end: 'Termina',
     finished: 'Respiro concluso',
     endedEarly: 'Respiro interrotto',
+  },
+  guided: {
+    title: 'Guidate',
+    start: 'Inizia',
+    minutes: 'min',
+    recorded: 'registrata',
+    voice: 'Lettura ad alta voce',
+    voiceUnavailable: 'Non disponibile in questo browser',
+    ambient: 'Ambiente',
+    label: 'Guidata',
+    finished: 'Meditazione conclusa',
+    endedEarly: 'Meditazione interrotta',
   },
   placeholder: {
     comingSoon: 'Questa sezione arriverà presto.',

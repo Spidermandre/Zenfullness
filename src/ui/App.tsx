@@ -4,6 +4,8 @@ import { UpdateNotice } from './components/UpdateNotice';
 import { usePractice } from './practice';
 import { useRoute, type Route } from './router';
 import { Breath } from './screens/Breath';
+import { Guided } from './screens/Guided';
+import { GuidedPlayer } from './screens/GuidedPlayer';
 import { Placeholder } from './screens/Placeholder';
 import { Settings } from './screens/Settings';
 import { Sitting } from './screens/Sitting';
@@ -21,7 +23,7 @@ function Screen({ route }: { route: Route }) {
     case 'breath':
       return <Breath practice={undefined} />;
     case 'guided':
-      return <Placeholder title={t.tabs.guided} />;
+      return <Guided />;
     case 'history':
       return <Placeholder title={t.tabs.history} />;
     case 'settings':
@@ -39,6 +41,14 @@ export function App() {
     return (
       <div className="app night">
         <Sitting config={practice.config} sitting={practice.sitting} />
+      </div>
+    );
+  }
+
+  if (practice?.kind === 'guided') {
+    return (
+      <div className="app night">
+        <GuidedPlayer guided={practice.guided} voice={practice.voice} ambient={practice.ambient} />
       </div>
     );
   }

@@ -90,6 +90,8 @@
   --fs-done-value: 56px;
   --fs-row: 17px;
   --fs-chevron: 20px;
+  --fs-guided: 24px;
+  --lh-guided: 1.4;
   --fs-body: 16px;
   --fs-body-sm: 15px;
   --fs-meta: 14px;
@@ -192,6 +194,7 @@
   --dur-fast: 160ms;
   --dur-fade: 600ms;
   --dur-screen: 400ms;
+  --dur-guided-fade: 2400ms;
 }
 
 /* Reduced transparency: solid fills instead of glass (from design/tokens.css). */
@@ -215,5 +218,6 @@
     --dur-fast: 0ms;
     --dur-fade: 0ms;
     --dur-screen: 0ms;
+    --dur-guided-fade: 0ms;
   }
 }

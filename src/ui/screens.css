@@ -560,3 +560,80 @@ dl.rows dd {
   line-height: 1;
   color: var(--ink-chevron);
 }
+
+/* ── Guidate (design 05) ───────────────────────────────────────────────── */
+.guided-list {
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.guided-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: var(--space-1-5);
+  padding: var(--space-2) var(--space-2) var(--space-2) var(--row-pad-y);
+  border-radius: var(--radius-row-card);
+  background: var(--glass-card-fill);
+  border: var(--glass-card-border);
+  box-shadow: var(--glass-shadow);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  text-align: left;
+  cursor: pointer;
+}
+
+.guided-card__title {
+  display: block;
+  font-size: var(--fs-row);
+}
+
+.guided-card__meta {
+  display: block;
+  margin-top: var(--space-half);
+  font-size: var(--fs-small);
+  color: var(--ink-muted);
+}
+
+.guided-card__play {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: var(--play-button);
+  height: var(--play-button);
+  border-radius: 50%;
+  font-size: var(--fs-small);
+}
+
+/* ── Guided playback (added: not in design) ──────────────────────────── */
+.guided-text {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+}
+
+.guided-text__body {
+  font: var(--fw-light) var(--fs-guided) / var(--lh-guided) var(--font-display);
+  color: var(--night-ink);
+  white-space: pre-line;
+  animation: guided-fade var(--dur-guided-fade) var(--ease-calm) both;
+}
+
+@keyframes guided-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.guided-done-title {
+  margin-top: var(--space-1-5);
+}
