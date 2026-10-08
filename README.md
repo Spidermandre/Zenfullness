@@ -1,7 +1,5 @@
 # Zenfullness
 
-![Zenfullness — pratica zen quotidiana](docs/cover.png)
-
 Web app personale per la pratica zen quotidiana: zazen silenzioso, respirazione guidata,
 meditazioni guidate, suoni generativi. Gira interamente nel browser, è installabile come PWA,
 funziona senza rete e non invia dati a nessuno.
@@ -37,7 +35,7 @@ poi apri <http://localhost:4173/Zenfullness/>.
 ```
 design/          export di Claude Design (fonte di verità visiva)
 public/icons/    icone della PWA
-scripts/         utilità di sviluppo (server statico per gli e2e)
+scripts/         utilità: server statico per gli e2e, generatore dell'icona (scripts/icons)
 e2e/             test Playwright
 src/
   audio/         sintesi in tempo reale (campane, legni, paesaggi sonori)      — tappa 2, 4
