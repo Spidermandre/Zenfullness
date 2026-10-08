@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ScreenTitle } from '../components/ScreenTitle';
 import { SettingsIcon } from '../components/Icons';
+import { TodayCard } from '../components/TodayCard';
 import { formatLongDate, greetingFor } from '../format';
 import { hrefFor } from '../router';
 import { t } from '../strings.it';
@@ -56,6 +57,8 @@ export function Today() {
           <SettingsIcon />
         </a>
       </header>
+      <TodayCard now={now} />
+
       <h2 className="eyebrow section-label">{t.today.otherPractices}</h2>
       <ul className="rows">
         <OtherPractice route="breath" title={t.today.breathing} detail={breathName} />

@@ -103,6 +103,7 @@
   --fw-bold: 700;
   --lh-tight: 1.1;
   --lh-body: 1.45;
+  --lh-card-title: 1.15;
   --tracking-eyebrow: 0.12em;
   --tracking-night: 0.14em;
 
@@ -131,6 +132,8 @@
   --session-ring: 80px;
   --session-glow: 220px;
   --calendar-gap: 6px;
+  --today-card-min-h: 210px;
+  --today-card-actions-gap: 22px;
   --session-label-top: 72px;
   --night-actions-bottom: 56px;
   --stepper-gap: 36px;

@@ -151,6 +151,56 @@ export const t = {
     finished: 'Meditazione conclusa',
     endedEarly: 'Meditazione interrotta',
   },
+  path: {
+    eyebrow: 'Pratica di oggi',
+    zazenTitle: (minutes: number) => `Zazen, ${String(minutes)} minuti`,
+    breathTitle: (minutes: number) => `Respiro, ${String(minutes)} minuti`,
+    guidedTitle: (title: string, minutes: number) => `${title}, ${String(minutes)} minuti`,
+    start: 'Inizia',
+    why: 'Perché?',
+    hideWhy: 'Nascondi',
+    whyTitle: 'Perché questa proposta',
+    footnote:
+      'Regole semplici e fisse, calcolate sul telefono dal tuo storico. La proposta si può sempre ignorare.',
+    /** One neutral line on the card. After a pause: no comment. */
+    card: {
+      'first-time': () => 'Si comincia con poco.',
+      'steady-step-up': (v: Record<string, number>) =>
+        `Hai praticato con regolarità. Si sale a ${String(v.minutes)} minuti.`,
+      'steady-stay': (v: Record<string, number>) =>
+        `Hai praticato con regolarità questa settimana. Si resta su ${String(v.minutes)} minuti.`,
+      'steady-at-max': (v: Record<string, number>) => `Si resta su ${String(v.minutes)} minuti.`,
+      'building-regularity': (v: Record<string, number>) =>
+        `Si resta su ${String(v.minutes)} minuti.`,
+      'short-break': () => 'Una seduta semplice.',
+      'long-break': () => 'Una seduta semplice.',
+      'ended-early': () => 'Una seduta semplice.',
+      'already-sat-today': () => 'Oggi hai già fatto zazen. Una guidata, se ti va.',
+      'late-evening': () => 'È tardi: un respiro lento prima di dormire.',
+    },
+    /** The rule behind the proposal, shown under "Perché?". Factual, never judging. */
+    reasons: {
+      'first-time': () => 'Non ci sono ancora sedute registrate: si parte da 10 minuti.',
+      'steady-step-up': (v: Record<string, number>) =>
+        `Hai praticato ${String(v.days)} giorni negli ultimi 7 e le ultime ${String(v.sittings)} sedute erano complete: la durata sale di 5 minuti, fino a un massimo di 40.`,
+      'steady-stay': (v: Record<string, number>) =>
+        `Hai praticato ${String(v.days)} giorni negli ultimi 7. La durata sale dopo 3 sedute complete a questa lunghezza.`,
+      'steady-at-max': () =>
+        '40 minuti è la durata più lunga che il percorso propone. Da Zazen puoi sempre sederti più a lungo.',
+      'building-regularity': (v: Record<string, number>) =>
+        `Negli ultimi 7 giorni hai praticato ${String(v.days)} ${v.days === 1 ? 'giorno' : 'giorni'}. La durata sale quando sono almeno 4.`,
+      'short-break': (v: Record<string, number>) =>
+        `L'ultima pratica è di ${String(v.days)} giorni fa: si riparte con 5 minuti in meno.`,
+      'long-break': (v: Record<string, number>) =>
+        `L'ultima pratica è di ${String(v.days)} giorni fa: si riparte con 10 minuti in meno.`,
+      'ended-early': (v: Record<string, number>) =>
+        `${String(v.early)} delle ultime ${String(v.of)} sedute sono terminate prima della fine: una durata un po' più breve.`,
+      'already-sat-today': () =>
+        "Oggi c'è già una seduta di zazen. Per variare, la meditazione guidata che non fai da più tempo.",
+      'late-evening': () =>
+        "Dopo le 21, se di solito non pratichi a quest'ora, una respirazione breve con espirazione lunga.",
+    },
+  },
   history: {
     title: 'Storico',
     sessions: (n: number) => (n === 1 ? 'seduta' : 'sedute'),
