@@ -61,6 +61,7 @@ la sessione compare nella lista Guidate al prossimo push (la pubblicazione è au
 title: Camminare
 duration: 12 # minuti: alla fine suona la campana
 order: 7 # posizione nella lista (facoltativo)
+description: Camminare piano, un passo per respiro. # una riga nella lista (facoltativa)
 ---
 
 [00:05] Alzati lentamente. Porta le mani in shashu, davanti al petto.

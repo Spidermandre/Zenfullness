@@ -31,6 +31,11 @@ describe('parseSession', () => {
     ]);
   });
 
+  it('reads an optional one-line description', () => {
+    const s = parseSession('d', sample.replace('order: 2', 'description: Per iniziare.'));
+    expect(s.description).toBe('Per iniziare.');
+  });
+
   it('accepts files saved with a byte-order mark', () => {
     expect(parseSession('bom', `\uFEFF${sample}`).title).toBe('Prova');
   });

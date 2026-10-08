@@ -131,6 +131,8 @@ Wake Lock available in standalone mode since iOS 18.4). Android Chrome is the se
   precached (limit 60 MB).
 - Guided playback screen is not in the design (sitting-style night screen, instruction in
   the display face, 2.4 s fade). Guidate list has "Lettura ad alta voce" and "Ambiente".
+- Optional `description:` front matter: one line shown on the Guidate card (all built-in
+  sessions have one; tested).
 - Content tone: sober, practical, no new-age language; long silences between
   instructions; nothing in the last 20 s before the bell (tested).
 
@@ -177,6 +179,15 @@ Wake Lock available in standalone mode since iOS 18.4). Android Chrome is the se
 - a11y: `e2e/a11y.spec.ts` (axe, WCAG 2.2 AA tags; the fake clock must keep running for
   axe). Section labels use `--ink-label` (#4A554E) to stay ≥ 4.5:1 over the sage blob.
 - Perf: `npm run perf` (`@perf`, excluded from CI by `grepInvert`).
+
+## Explanations for newcomers
+
+- The user is new to the practice: every practice and option carries a short, plain
+  explanation (`t.help` in `strings.it.ts`), shown as `.hint` under titles or `.row-hint`
+  under a row (linked with `aria-describedby`). Never shown during a practice (the
+  sitting/breath/guided screens stay empty). Keep new options explained the same way.
+- Respiro at rest: the sphere's unused layout space is reclaimed (negative margins) so
+  Inizia stays above the tab bar on a 393×852 screen (tested in `breath.spec.ts`).
 
 ## Product decisions (from the user)
 

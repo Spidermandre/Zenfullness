@@ -201,6 +201,46 @@ export const t = {
         "Dopo le 21, se di solito non pratichi a quest'ora, una respirazione breve con espirazione lunga.",
     },
   },
+  /** Short explanations for newcomers, shown under titles and options (never during a practice). */
+  help: {
+    zazen:
+      'Meditazione seduta: schiena dritta, occhi socchiusi, mani unite in grembo. Non si cerca di pensare a nulla: si lasciano passare i pensieri e si torna alla postura e al respiro.',
+    sequence:
+      'Zazen è il periodo seduto. Kinhin è la meditazione camminata tra due periodi: passi lentissimi, mezzo passo a ogni respiro, mani unite davanti al petto. Tocca un periodo per cambiarne la durata con − e +.',
+    duration: 'Scegli quanto dura ogni periodo di zazen. Se inizi ora, 10–15 minuti bastano.',
+    prep: 'Tempo per sistemarti sul cuscino prima della prima campana.',
+    bells:
+      'Tre rintocchi aprono lo zazen, due il kinhin, uno chiude la seduta. Tocca per cambiare suono e sentirlo.',
+    midBell: 'Un rintocco leggero a metà di ogni zazen, per sapere dove sei senza guardare.',
+    showTime: 'Mostra il tempo che resta. Senza, lo schermo resta buio: è il modo tradizionale.',
+    ambient: 'Aggiunge sotto le campane il paesaggio sonoro scelto in Oggi → Paesaggio sonoro.',
+    savePreset: 'Salva la sequenza attuale tra le durate qui sopra, per ritrovarla con un tocco.',
+    breath: {
+      susokukan:
+        'Conta le espirazioni da uno a dieci, poi ricomincia. Se perdi il conto, riparti da uno senza giudicarti. Il ritmo è naturale: la sfera è solo un appoggio.',
+      square:
+        'Inspira, trattieni, espira e resta a polmoni vuoti, quattro secondi ciascuno. Aiuta a ritrovare calma e attenzione.',
+      long46:
+        "Inspira per 4 secondi ed espira per 6. L'espirazione più lunga rallenta il battito e scioglie la tensione.",
+      long478:
+        'Inspira per 4 secondi, trattieni per 7, espira lentamente per 8. Indicato la sera, prima di dormire.',
+      coherence:
+        'Cinque secondi dentro e cinque fuori: sei respiri al minuto, un ritmo regolare e riposante.',
+      custom: 'Scegli tu la durata di ogni fase con "Modifica".',
+    },
+    breathHow:
+      'Segui la sfera: quando si allarga inspira, quando si restringe espira. Respira dal naso.',
+    breathOptions: 'Durata, suono e ambiente: tocca per cambiarli.',
+    guided:
+      'Una voce ti accompagna con brevi istruzioni, separate da lunghi silenzi. Utili per imparare o quando sedersi da soli è difficile.',
+    voice: 'Legge le istruzioni con la voce del telefono. Senza, compaiono solo come testo.',
+    soundscape:
+      'Suoni naturali generati sul momento, da usare durante la pratica o semplicemente per riposare. Accendi quelli che vuoi e regola il volume di ciascuno.',
+    history:
+      'Ogni pratica di almeno un minuto viene registrata qui. I giorni pieni nel calendario sono quelli in cui hai praticato.',
+    settingsOffline: '"Pronta" significa che l\'app funziona anche senza internet.',
+    settingsVolumes: 'Campane e ambiente hanno volumi separati. "Prova" fa suonare una campana.',
+  },
   history: {
     title: 'Storico',
     sessions: (n: number) => (n === 1 ? 'seduta' : 'sedute'),

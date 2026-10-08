@@ -12,6 +12,7 @@ export function Guided() {
   return (
     <main className="screen">
       <ScreenTitle>{t.guided.title}</ScreenTitle>
+      <p className="hint hint--lead">{t.help.guided}</p>
       <ul className="guided-list">
         {CATALOG.map((session) => (
           <li key={session.id}>
@@ -29,6 +30,9 @@ export function Guided() {
                   {session.minutes} {t.guided.minutes}
                   {session.audio ? ` · ${t.guided.recorded}` : ''}
                 </span>
+                {session.description && (
+                  <span className="guided-card__description">{session.description}</span>
+                )}
               </span>
               <span className="guided-card__play glass--primary" aria-hidden="true">
                 ▶
@@ -40,6 +44,7 @@ export function Guided() {
       <ul className="rows rows--settings">
         <li>
           <button
+            aria-describedby="hint-voice"
             type="button"
             role="switch"
             aria-checked={speech && guided.voice}
@@ -54,9 +59,13 @@ export function Guided() {
               {!speech ? t.guided.voiceUnavailable : guided.voice ? t.zazen.yes : t.zazen.no}
             </span>
           </button>
+          <p id="hint-voice" className="row-hint">
+            {t.help.voice}
+          </p>
         </li>
         <li>
           <button
+            aria-describedby="hint-guided-ambient"
             type="button"
             role="switch"
             aria-checked={guided.ambient}
@@ -71,6 +80,9 @@ export function Guided() {
             <span>{t.guided.ambient}</span>
             <span className="row__value">{guided.ambient ? t.zazen.yes : t.zazen.no}</span>
           </button>
+          <p id="hint-guided-ambient" className="row-hint">
+            {t.help.ambient}
+          </p>
         </li>
       </ul>
     </main>

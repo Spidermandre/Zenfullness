@@ -47,6 +47,7 @@ export function History() {
   return (
     <main className="screen">
       <ScreenTitle>{t.history.title}</ScreenTitle>
+      <p className="hint hint--lead">{t.help.history}</p>
 
       <div className="history-totals">
         <p>

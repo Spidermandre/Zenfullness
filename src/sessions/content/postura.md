@@ -2,6 +2,7 @@
 title: Postura
 duration: 10
 order: 1
+description: Come sedersi: cuscino, schiena, mani, sguardo. Il punto di partenza.
 ---
 
 [00:05] Siediti sul cuscino, sulla parte anteriore, in modo che le ginocchia tocchino il tappeto. Se le ginocchia non arrivano a terra, alza il cuscino o usa una sedia.
