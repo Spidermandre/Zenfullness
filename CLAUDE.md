@@ -98,6 +98,24 @@ Wake Lock available in standalone mode since iOS 18.4). Android Chrome is the se
   long jumps, then `runFor(100)` before checking anything drawn by requestAnimationFrame
   (fastForward fires a pending rAF at most once, at an intermediate instant).
 
+## Soundscapes (stage 4)
+
+- `audio/soundscapes/noise.ts` (white/pink/brown, pure) and `modulation.ts` (bounded
+  mean-reverting drifts, Poisson event times) are the tested core.
+- `layers.ts`: rain (pink bed + brown rumble + Poisson drops at a drifting rate), wind
+  (band-passed brown noise, gusting gain/Q/centre/pan), water (stream bed + resonant
+  bubbles jumping in pitch), drone (D2 chord, detuned pairs, partials drifting in and
+  out, slow low-pass). Noise beds loop two buffers of incommensurate length.
+  Layers are balanced to ≈ −24 dBFS RMS (offline render check in Chromium).
+- `player.ts`: one player on the ambient bus; `play(mix)` fades layers in/out (4 s / 3 s),
+  a 1 s heartbeat steers drifts and schedules events 3 s ahead on the audio clock.
+- Mix + ambient volume live in settings. Zazen/Respiro have an "Ambiente" option that
+  starts the saved mix on the start tap and fades it out over 8 s when the practice ends.
+- Soundscape screen `#/paesaggio` (not in the design): night style, back to Oggi, no tab
+  bar; listening counts as a practice for the update guard. No wake lock while only
+  listening.
+- Oggi now shows the design's "Altre pratiche" list.
+
 ## Product decisions (from the user)
 
 - **No biofeedback.** Stage 8 (microphone breath rate, camera heart rate) is dropped:
@@ -138,3 +156,5 @@ Wake Lock available in standalone mode since iOS 18.4). Android Chrome is the se
 3. **Guided breathing** — done. Respiro screen per design (glass sphere pacer, words only,
    scheme chips), duration/sound/vibration chips, custom pattern editor, pause/end,
    end screen. New app icon (brush ensō, `scripts/icons/`).
+4. **Generative soundscapes** — done. Rain, wind, water, drone; mixer screen; ambient
+   option in Zazen and Respiro; separate bell/ambient volumes; Oggi "Altre pratiche".
