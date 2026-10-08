@@ -6,8 +6,9 @@ import type { Guided } from '../../sessions/session';
 import { speak, stopSpeech } from '../../sessions/speech';
 import { keepScreenOn } from '../../timer/wakeLock';
 import { PRACTICE_FADE_OUT, stopAmbient } from '../ambient';
+import { EndScreen } from '../components/EndScreen';
 import { ScreenTitle } from '../components/ScreenTitle';
-import { formatMinutes } from '../format';
+import { useRecordOnFinish } from '../record';
 import { closePractice } from '../practice';
 import { t } from '../strings.it';
 
@@ -22,10 +23,12 @@ export function GuidedPlayer({
   guided,
   voice,
   ambient,
+  startedAt,
 }: {
   guided: Guided;
   voice: boolean;
   ambient: boolean;
+  startedAt: number;
 }) {
   const [snapshot, setSnapshot] = useState(() => guided.snapshot());
   const [confirming, setConfirming] = useState(false);
@@ -36,6 +39,18 @@ export function GuidedPlayer({
   const refresh = useCallback(() => {
     setSnapshot(guided.snapshot());
   }, [guided]);
+
+  const entryId = useRecordOnFinish(snapshot.finished, () => {
+    const snap = guided.snapshot();
+    return {
+      kind: 'guided',
+      startedAt,
+      plannedSeconds: guided.total,
+      actualSeconds: snap.elapsed,
+      completed: !snap.endedEarly,
+      detail: session.title,
+    };
+  });
 
   // A recorded session plays its audio instead of the synthetic voice.
   useEffect(() => {
@@ -125,21 +140,13 @@ export function GuidedPlayer({
 
   if (snapshot.finished) {
     return (
-      <main className="night-screen night-screen--done">
-        <ScreenTitle className="night-title">
-          {snapshot.endedEarly ? t.guided.endedEarly : t.guided.finished}
-        </ScreenTitle>
-        <p className="night-label guided-done-title">{session.title}</p>
-        <dl className="done-summary">
-          <dt className="night-label">{t.sitting.duration}</dt>
-          <dd className="done-value">{formatMinutes(snapshot.elapsed)}</dd>
-        </dl>
-        <div className="night-actions">
-          <button type="button" className="btn glass glass--night" onClick={closePractice}>
-            {t.sitting.close}
-          </button>
-        </div>
-      </main>
+      <EndScreen
+        title={snapshot.endedEarly ? t.guided.endedEarly : t.guided.finished}
+        subtitle={session.title}
+        seconds={snapshot.elapsed}
+        entryId={entryId}
+        onClose={closePractice}
+      />
     );
   }
 

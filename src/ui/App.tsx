@@ -6,13 +6,12 @@ import { useRoute, type Route } from './router';
 import { Breath } from './screens/Breath';
 import { Guided } from './screens/Guided';
 import { GuidedPlayer } from './screens/GuidedPlayer';
-import { Placeholder } from './screens/Placeholder';
+import { History } from './screens/History';
 import { Settings } from './screens/Settings';
 import { Sitting } from './screens/Sitting';
 import { Soundscape } from './screens/Soundscape';
 import { Today } from './screens/Today';
 import { Zazen } from './screens/Zazen';
-import { t } from './strings.it';
 
 function Screen({ route }: { route: Route }) {
   switch (route) {
@@ -25,7 +24,7 @@ function Screen({ route }: { route: Route }) {
     case 'guided':
       return <Guided />;
     case 'history':
-      return <Placeholder title={t.tabs.history} />;
+      return <History />;
     case 'settings':
       return <Settings />;
     case 'soundscape':
@@ -40,7 +39,11 @@ export function App() {
   if (practice?.kind === 'sitting') {
     return (
       <div className="app night">
-        <Sitting config={practice.config} sitting={practice.sitting} />
+        <Sitting
+          config={practice.config}
+          sitting={practice.sitting}
+          startedAt={practice.startedAt}
+        />
       </div>
     );
   }
@@ -48,7 +51,12 @@ export function App() {
   if (practice?.kind === 'guided') {
     return (
       <div className="app night">
-        <GuidedPlayer guided={practice.guided} voice={practice.voice} ambient={practice.ambient} />
+        <GuidedPlayer
+          guided={practice.guided}
+          voice={practice.voice}
+          ambient={practice.ambient}
+          startedAt={practice.startedAt}
+        />
       </div>
     );
   }

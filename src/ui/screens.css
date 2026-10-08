@@ -637,3 +637,131 @@ dl.rows dd {
 .guided-done-title {
   margin-top: var(--space-1-5);
 }
+
+/* ── Storico (design 06) ──────────────────────────────────────────────── */
+.history-totals {
+  display: flex;
+  gap: var(--gutter);
+  margin: var(--space-2) 0 var(--space-3);
+}
+
+.history-totals__value {
+  display: block;
+  font: var(--fw-light) var(--fs-stat) / 1 var(--font-display);
+}
+
+.history-totals__label {
+  display: block;
+  margin-top: var(--space-half);
+  font-size: var(--fs-small);
+  color: var(--ink-muted);
+}
+
+.history-calendar {
+  padding: var(--space-2-5);
+  border-radius: var(--radius-card);
+}
+
+.history-calendar__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-1);
+}
+
+.history-calendar__title {
+  font-size: var(--fs-body-sm);
+  font-weight: var(--fw-semibold);
+}
+
+.history-calendar__nav .icon-btn {
+  background: none;
+  border: 0;
+  font-size: var(--fs-chevron);
+  color: var(--ink-muted);
+}
+
+.history-calendar__nav .icon-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.history-grid__row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--calendar-gap);
+  text-align: center;
+}
+
+.history-grid__days {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.history-grid__weekday {
+  padding-bottom: var(--space-half);
+  font-size: var(--fs-label);
+  color: var(--ink-muted);
+  text-decoration: none;
+}
+
+.history-day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  font-size: var(--fs-small);
+  color: var(--ink-body);
+}
+
+.history-day--today {
+  background: var(--day-today-fill);
+}
+
+.history-day--practised {
+  color: var(--on-accent);
+  background: var(--chip-fill-on);
+}
+
+.history-entry {
+  padding: var(--row-button-pad-y) var(--space-half);
+  font-size: var(--fs-body-sm);
+}
+
+.history-entry__label {
+  display: block;
+}
+
+.history-entry__note {
+  display: block;
+  margin-top: var(--space-half);
+  font-size: var(--fs-small);
+  color: var(--ink-muted);
+}
+
+/* ── End screen note (added: proposal 08) ─────────────────────────────── */
+.done-note {
+  width: 100%;
+  margin-top: var(--space-4);
+  text-align: left;
+}
+
+.done-note__input {
+  display: block;
+  width: 100%;
+  margin-top: var(--space-1);
+  padding: var(--space-1-5);
+  border-radius: var(--radius-chip);
+  border: var(--glass-night-border);
+  background: var(--night-chip-fill);
+  color: var(--night-ink);
+  font: inherit;
+  font-size: var(--fs-body);
+  resize: vertical;
+}
+
+.done-note__input::placeholder {
+  color: var(--night-ink-faint);
+}

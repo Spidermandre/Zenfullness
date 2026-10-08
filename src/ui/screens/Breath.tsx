@@ -14,8 +14,9 @@ import { startBreathing, type BreathConfig, type Breathing } from '../../breath/
 import { activity } from '../../pwa/activity';
 import { BREATH_MINUTES } from '../../storage/settings';
 import { keepScreenOn } from '../../timer/wakeLock';
+import { EndScreen } from '../components/EndScreen';
 import { ScreenTitle } from '../components/ScreenTitle';
-import { formatMinutes } from '../format';
+import { useRecordOnFinish } from '../record';
 import { closePractice, openPractice } from '../practice';
 import { PRACTICE_FADE_OUT, startAmbient, stopAmbient } from '../ambient';
 import { t } from '../strings.it';
@@ -203,7 +204,8 @@ function CustomEditor({ phases, onClose }: { phases: Phases; onClose: () => void
 export function Breath({
   practice,
 }: {
-  practice: { config: BreathConfig; breathing: Breathing } | undefined;
+  practice:
+    { config: BreathConfig; breathing: Breathing; detail: string; startedAt: number } | undefined;
 }) {
   const { breath } = useSettings();
   const [editing, setEditing] = useState(false);
@@ -216,6 +218,18 @@ export function Breath({
   const refresh = useCallback(() => {
     setSnapshot(breathing?.snapshot());
   }, [breathing]);
+
+  const entryId = useRecordOnFinish(snapshot?.finished === true, () => {
+    const snap = breathing?.snapshot();
+    return {
+      kind: 'breath',
+      startedAt: practice?.startedAt ?? Date.now(),
+      plannedSeconds: breathing?.total ?? 0,
+      actualSeconds: snap?.elapsed ?? 0,
+      completed: snap?.endedEarly !== true,
+      detail: practice?.detail ?? '',
+    };
+  });
 
   // The ambient soundscape fades out with the end of the session.
   useEffect(() => {
@@ -265,7 +279,13 @@ export function Breath({
     };
     if (config.ambient) startAmbient();
     setEditing(false);
-    openPractice({ kind: 'breath', config, breathing: createBreathing(config) });
+    openPractice({
+      kind: 'breath',
+      config,
+      breathing: createBreathing(config),
+      detail: subtitle(breath.pattern, phases),
+      startedAt: Date.now(),
+    });
   };
 
   const togglePause = () => {
@@ -282,20 +302,13 @@ export function Breath({
 
   if (practice && snapshot?.finished) {
     return (
-      <main className="night-screen night-screen--done">
-        <ScreenTitle className="night-title">
-          {snapshot.endedEarly ? t.breath.endedEarly : t.breath.finished}
-        </ScreenTitle>
-        <dl className="done-summary">
-          <dt className="night-label">{t.sitting.duration}</dt>
-          <dd className="done-value">{formatMinutes(snapshot.elapsed)}</dd>
-        </dl>
-        <div className="night-actions">
-          <button type="button" className="btn glass glass--night" onClick={closePractice}>
-            {t.sitting.close}
-          </button>
-        </div>
-      </main>
+      <EndScreen
+        title={snapshot.endedEarly ? t.breath.endedEarly : t.breath.finished}
+        subtitle={practice.detail}
+        seconds={snapshot.elapsed}
+        entryId={entryId}
+        onClose={closePractice}
+      />
     );
   }
 

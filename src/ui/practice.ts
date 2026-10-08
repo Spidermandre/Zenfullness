@@ -8,10 +8,15 @@ import type { Guided } from '../sessions/session';
  * Which full-screen practice (if any) is on screen. Practices take over the whole app:
  * no tab bar, night theme.
  */
+interface Started {
+  /** Wall-clock ms when the user tapped start (for the log). */
+  startedAt: number;
+}
+
 export type Practice =
-  | { kind: 'sitting'; config: SittingConfig; sitting: Sitting }
-  | { kind: 'breath'; config: BreathConfig; breathing: Breathing }
-  | { kind: 'guided'; guided: Guided; voice: boolean; ambient: boolean }
+  | (Started & { kind: 'sitting'; config: SittingConfig; sitting: Sitting })
+  | (Started & { kind: 'breath'; config: BreathConfig; breathing: Breathing; detail: string })
+  | (Started & { kind: 'guided'; guided: Guided; voice: boolean; ambient: boolean })
   | undefined;
 
 let current: Practice;

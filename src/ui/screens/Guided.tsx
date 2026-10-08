@@ -26,7 +26,13 @@ function begin(session: GuidedSession): void {
     },
   });
   updateSettings((s) => ({ ...s, guided: { ...s.guided, last: session.id } }));
-  openPractice({ kind: 'guided', guided, voice, ambient: settings.guided.ambient });
+  openPractice({
+    kind: 'guided',
+    guided,
+    voice,
+    ambient: settings.guided.ambient,
+    startedAt: Date.now(),
+  });
 }
 
 /** Design 05: glass cards with title, duration and a play button. */

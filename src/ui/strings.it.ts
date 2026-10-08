@@ -151,7 +151,21 @@ export const t = {
     finished: 'Meditazione conclusa',
     endedEarly: 'Meditazione interrotta',
   },
-  placeholder: {
-    comingSoon: 'Questa sezione arriverà presto.',
+  history: {
+    title: 'Storico',
+    sessions: (n: number) => (n === 1 ? 'seduta' : 'sedute'),
+    inMonth: (month: string) => `in ${month}`,
+    previousMonth: 'Mese precedente',
+    nextMonth: 'Mese successivo',
+    weekdays: ['L', 'M', 'M', 'G', 'V', 'S', 'D'],
+    weekdayNames: ['lunedì', 'martedì', 'mercoledì', 'giovedì', 'venerdì', 'sabato', 'domenica'],
+    practised: 'pratica registrata',
+    today: 'oggi',
+    yesterday: 'ieri',
+    recent: 'Recenti',
+    empty: 'Nessuna pratica registrata, per ora.',
+    kind: { zazen: 'Zazen', breath: 'Respiro', guided: 'Guidata' },
+    noteLabel: 'Nota',
+    notePlaceholder: 'Facoltativa',
   },
 } as const;

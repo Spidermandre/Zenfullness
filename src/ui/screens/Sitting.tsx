@@ -8,8 +8,10 @@ import {
   type SittingSnapshot,
 } from '../../timer/session';
 import { keepScreenOn } from '../../timer/wakeLock';
+import { EndScreen } from '../components/EndScreen';
 import { ScreenTitle } from '../components/ScreenTitle';
-import { formatClock, formatMinutes } from '../format';
+import { useRecordOnFinish } from '../record';
+import { formatClock } from '../format';
 import { closePractice } from '../practice';
 import { PRACTICE_FADE_OUT, stopAmbient } from '../ambient';
 import { t } from '../strings.it';
@@ -42,7 +44,15 @@ export function createSitting(config: SittingConfig): SittingModel {
   });
 }
 
-export function Sitting({ config, sitting }: { config: SittingConfig; sitting: SittingModel }) {
+export function Sitting({
+  config,
+  sitting,
+  startedAt,
+}: {
+  config: SittingConfig;
+  sitting: SittingModel;
+  startedAt: number;
+}) {
   const [snapshot, setSnapshot] = useState(() => sitting.snapshot());
   const [confirming, setConfirming] = useState(false);
   const [audioSuspended, setAudioSuspended] = useState(false);
@@ -50,6 +60,19 @@ export function Sitting({ config, sitting }: { config: SittingConfig; sitting: S
   const refresh = useCallback(() => {
     setSnapshot(sitting.snapshot());
   }, [sitting]);
+
+  const entryId = useRecordOnFinish(snapshot.finished, () => {
+    const snap = sitting.snapshot();
+    const prep = sitting.plan.segments.find((seg) => seg.kind === 'prep')?.end ?? 0;
+    return {
+      kind: 'zazen',
+      startedAt,
+      plannedSeconds: sitting.plan.total - prep,
+      actualSeconds: snap.practiced,
+      completed: !snap.endedEarly,
+      detail: config.periods.map((p) => String(p.minutes)).join(' · '),
+    };
+  });
 
   // The ambient soundscape fades out with the end of the sitting.
   useEffect(() => {
@@ -129,20 +152,12 @@ export function Sitting({ config, sitting }: { config: SittingConfig; sitting: S
 
   if (snapshot.finished) {
     return (
-      <main className="night-screen night-screen--done">
-        <ScreenTitle className="night-title">
-          {snapshot.endedEarly ? t.sitting.doneEarly : t.sitting.doneTitle}
-        </ScreenTitle>
-        <dl className="done-summary">
-          <dt className="night-label">{t.sitting.duration}</dt>
-          <dd className="done-value">{formatMinutes(snapshot.practiced)}</dd>
-        </dl>
-        <div className="night-actions">
-          <button type="button" className="btn glass glass--night" onClick={closePractice}>
-            {t.sitting.close}
-          </button>
-        </div>
-      </main>
+      <EndScreen
+        title={snapshot.endedEarly ? t.sitting.doneEarly : t.sitting.doneTitle}
+        seconds={snapshot.practiced}
+        entryId={entryId}
+        onClose={closePractice}
+      />
     );
   }
 

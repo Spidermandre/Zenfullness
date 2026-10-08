@@ -99,7 +99,12 @@ export function Zazen() {
   const start = () => {
     unlockAudio();
     if (sitting.ambient) startAmbient();
-    openPractice({ kind: 'sitting', config: sitting, sitting: createSitting(sitting) });
+    openPractice({
+      kind: 'sitting',
+      config: sitting,
+      sitting: createSitting(sitting),
+      startedAt: Date.now(),
+    });
   };
 
   const durationChips: { key: string; label: string; pressed: boolean; onClick: () => void }[] = [
