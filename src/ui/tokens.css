@@ -14,6 +14,8 @@
   --ink-body: #4a554e; /* added: card body copy */
   --ink-muted: #5b665f;
   --ink-eyebrow: #4a6a58; /* added: "PRATICA DI OGGI" label */
+  /* a11y: section labels (design #5B665F) can sit on the sage blob: 3.8:1 → darkened */
+  --ink-label: #4a554e;
   /* a11y: design used #6F7B74 (3.9:1 on --bg); darkened to reach 4.5:1 */
   --ink-tab-idle: #5f6b64;
   --ink-chevron: #8a958e; /* decorative only, aria-hidden */

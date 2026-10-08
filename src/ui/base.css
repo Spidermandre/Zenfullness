@@ -112,7 +112,7 @@ a {
   font-size: var(--fs-label);
   font-weight: var(--fw-semibold);
   letter-spacing: var(--tracking-eyebrow);
-  color: var(--ink-muted);
+  color: var(--ink-label);
   text-transform: uppercase;
 }
 

@@ -65,6 +65,11 @@ describe('colour contrast (WCAG 2.2 AA, normal text 4.5:1)', () => {
     ['night-ink-faint', 'night-bg'],
     ['night-ink-muted', 'night-bg-breath'],
     ['night-chip-ink', 'night-bg-breath'],
+    // Labels and eyebrows can sit on the blurred colour fields of the day screens.
+    ['ink-label', 'bg-blob-sage'],
+    ['ink-label', 'bg-blob-sand'],
+    ['ink', 'bg-blob-sage'],
+    ['ink-body', 'bg-blob-sage'],
   ];
   it.each(pairs)('--%s on --%s', (fg, bg) => {
     expect(contrast(token(fg), token(bg))).toBeGreaterThanOrEqual(4.5);
