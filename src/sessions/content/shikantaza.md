@@ -2,6 +2,7 @@
 title: Shikantaza
 duration: 25
 order: 4
+description: Soltanto sedere: poche parole all'inizio, poi silenzio. Per chi ha già un po' di pratica.
 ---
 
 [00:05] Shikantaza significa soltanto sedere. Nessun oggetto su cui concentrarsi, nessun obiettivo da raggiungere.

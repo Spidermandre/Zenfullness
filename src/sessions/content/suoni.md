@@ -2,6 +2,7 @@
 title: Suoni
 duration: 15
 order: 5
+description: Ascoltare i suoni intorno senza cercarli né giudicarli.
 ---
 
 [00:05] Siediti comodo e chiudi gli occhi, oppure lasciali socchiusi.

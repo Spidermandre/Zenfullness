@@ -2,6 +2,7 @@
 title: Benevolenza
 duration: 15
 order: 6
+description: Rivolgere semplici auguri di bene a sé, a chi si ama e poi a tutti.
 ---
 
 [00:05] Siediti nella postura abituale e lascia che il respiro si calmi.

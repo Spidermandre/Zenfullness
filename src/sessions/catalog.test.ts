@@ -24,6 +24,10 @@ describe('content files', () => {
     ]);
   });
 
+  it('every built-in session has a one-line description for newcomers', () => {
+    for (const s of CATALOG) expect(s.description?.length).toBeGreaterThan(10);
+  });
+
   it('matches the durations in the design', () => {
     expect(CATALOG.map((s) => s.minutes)).toEqual([10, 15, 20, 25, 15, 15]);
   });

@@ -2,6 +2,7 @@
 title: Consapevolezza del respiro
 duration: 15
 order: 2
+description: Portare l'attenzione al respiro così com'è, e tornarci quando ci si distrae.
 ---
 
 [00:05] Siediti nella postura che conosci. Prenditi qualche istante per arrivare.

@@ -5,6 +5,7 @@
  *   title: Postura
  *   duration: 10          # minutes; a closing bell sounds here
  *   order: 1              # position in the list (optional)
+ *   description: Come sedersi sul cuscino.   # one line shown in the list (optional)
  *   audio: audio/postura.m4a   # optional recording under public/, replaces speech
  *   ---
  *   [00:05] Siediti sul cuscino.
@@ -27,6 +28,8 @@ export interface GuidedSession {
   title: string;
   minutes: number;
   order: number;
+  /** One line for the list: what the session is about. */
+  description: string | undefined;
   /** Path relative to the app base, e.g. "audio/postura.m4a". */
   audio: string | undefined;
   instructions: Instruction[];
@@ -76,6 +79,7 @@ export function parseSession(id: string, source: string): GuidedSession {
   const order = fields.order === undefined ? 999 : Number(fields.order);
   if (!Number.isFinite(order)) throw new SessionFormatError(id, '"order" must be a number');
   const audio = fields.audio?.replace(/^\/+/, '');
+  const description = fields.description?.slice(0, 200);
 
   const instructions: Instruction[] = [];
   let paragraphs: string[][] | undefined;
@@ -119,7 +123,7 @@ export function parseSession(id: string, source: string): GuidedSession {
       throw new SessionFormatError(id, `empty instruction at ${String(instruction.at)} s`);
     }
   }
-  return { id, title, minutes, order, audio, instructions };
+  return { id, title, minutes, order, description, audio, instructions };
 }
 
 /** The instruction showing at `elapsed` seconds (the last one that has started). */

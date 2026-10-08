@@ -2,6 +2,7 @@
 title: Scansione del corpo
 duration: 20
 order: 3
+description: Attraversare il corpo dai piedi alla testa, notando le sensazioni senza cambiarle.
 ---
 
 [00:05] Siediti o sdraiati, come preferisci. Lascia che il corpo sia sostenuto dal pavimento.
