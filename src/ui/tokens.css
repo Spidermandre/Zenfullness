@@ -44,6 +44,8 @@
   --night-glow-deep: #2e4a3c; /* added: sitting-screen glow */
   --night-ring: rgba(190, 215, 200, 0.35);
   --night-focus-ring: #eef3ef;
+  --night-glow-opacity: 0.35;
+  --night-glow-blur: 70px;
 
   /* ── Type (system fonts only — no CDN, no bundled fonts) ─────────────── */
   --font-display: 'Iowan Old Style', Georgia, serif;
@@ -55,6 +57,8 @@
   --fs-stat: 36px; /* added: Storico totals */
   --fs-hero: 84px;
   --fs-pacer: 24px;
+  --fs-session-time: 20px;
+  --fs-done-value: 56px;
   --fs-row: 17px;
   --fs-body: 16px;
   --fs-body-sm: 15px;
@@ -92,9 +96,20 @@
   --stepper: 56px;
   --play-button: 40px;
   --session-ring: 80px;
+  --session-glow: 220px;
+  --session-label-top: 72px;
+  --night-actions-bottom: 56px;
+  --stepper-gap: 36px;
+  --chip-pad-y: 9px;
+  --chip-pad-x: 16px;
+  --row-button-pad-y: 14px;
+  --slider-track: 4px;
+  --slider-thumb: 24px;
+  --button-h-sm: 36px;
   --pacer-size: 240px;
   --tabbar-inset: 16px;
   --tabbar-bottom: 20px;
+  --zero: 0px;
   --hairline: 1px;
   --focus-width: 2px;
   --focus-offset: 3px;
@@ -133,6 +148,10 @@
   --button-h: 52px;
   --button-h-lg: 60px;
   --tabbar-h: 68px;
+
+  /* Fades scrolling content out behind the fixed bottom controls. */
+  --bottom-scrim: linear-gradient(0deg, var(--bg) 55%, rgba(243, 241, 234, 0));
+  --bottom-scrim-h: calc(var(--tabbar-clearance) + var(--button-h-lg) + var(--space-3));
 
   /* ── Motion ──────────────────────────────────────────────────────────── */
   --ease-calm: cubic-bezier(0.4, 0, 0.2, 1);

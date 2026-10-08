@@ -36,3 +36,247 @@ dl.rows,
 dl.rows dd {
   margin: 0;
 }
+
+/* ── Screens with a fixed primary action above the tab bar ────────────── */
+.screen--with-action {
+  padding-bottom: calc(
+    var(--tabbar-clearance) + var(--button-h-lg) + var(--space-3) + env(safe-area-inset-bottom)
+  );
+}
+
+.screen--with-action::after {
+  content: '';
+  position: fixed;
+  left: max(var(--zero), calc((100vw - var(--app-max-width)) / 2));
+  right: max(var(--zero), calc((100vw - var(--app-max-width)) / 2));
+  bottom: 0;
+  height: calc(var(--bottom-scrim-h) + env(safe-area-inset-bottom));
+  background: var(--bottom-scrim);
+  pointer-events: none;
+  z-index: 4;
+}
+
+.screen-action {
+  position: fixed;
+  left: max(var(--gutter), calc((100vw - var(--app-max-width)) / 2 + var(--gutter)));
+  right: max(var(--gutter), calc((100vw - var(--app-max-width)) / 2 + var(--gutter)));
+  bottom: calc(
+    var(--tabbar-h) + var(--tabbar-bottom) + var(--space-2) + env(safe-area-inset-bottom)
+  );
+  z-index: 5;
+}
+
+.section-label {
+  margin: var(--space-4) 0 var(--space-1);
+}
+
+/* ── Duration stepper (Zazen) ─────────────────────────────────────────── */
+.stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: var(--stepper-gap) 0 var(--space-1);
+}
+
+.stepper__button {
+  width: var(--stepper);
+  height: var(--stepper);
+  border-radius: 50%;
+  font-size: var(--fs-pacer);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.stepper__value {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stepper__number {
+  font: var(--fw-light) var(--fs-hero) / 1 var(--font-display);
+  font-variant-numeric: tabular-nums;
+}
+
+.stepper__unit {
+  margin-top: var(--space-half);
+  font-size: var(--fs-meta);
+  color: var(--ink-muted);
+}
+
+/* ── Chips ─────────────────────────────────────────────────────────────── */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  justify-content: center;
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chip {
+  padding: var(--chip-pad-y) var(--chip-pad-x);
+  border-radius: var(--radius-chip);
+  font-size: var(--fs-meta);
+  color: var(--accent);
+  background: var(--chip-fill);
+  border: var(--hairline) solid var(--chip-border);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  cursor: pointer;
+}
+
+.chip[aria-pressed='true'] {
+  color: var(--on-accent);
+  background: var(--chip-fill-on);
+}
+
+/* ── Rows as buttons ──────────────────────────────────────────────────── */
+.row--button {
+  width: 100%;
+  padding: var(--row-button-pad-y) var(--space-half);
+  background: none;
+  border: 0;
+  border-bottom: var(--hairline) solid var(--line);
+  text-align: left;
+  cursor: pointer;
+}
+
+.row--button[aria-current='true'] {
+  color: var(--accent);
+  font-weight: var(--fw-semibold);
+}
+
+.row--action {
+  color: var(--accent);
+}
+
+.rows--settings {
+  margin-top: var(--space-1-5);
+}
+
+.rows--settings li:last-child .row--button {
+  border-bottom: 0;
+}
+
+/* ── Settings controls ────────────────────────────────────────────────── */
+.slider {
+  flex: 1;
+  accent-color: var(--accent);
+  min-height: var(--slider-thumb);
+}
+
+.btn--small {
+  height: var(--button-h-sm);
+  padding: 0 var(--space-2);
+  font-size: var(--fs-small);
+}
+
+/* ── Night screens (sitting) ──────────────────────────────────────────── */
+.night-screen {
+  position: relative;
+  min-height: 100dvh;
+  padding: calc(var(--session-label-top) + env(safe-area-inset-top)) var(--gutter)
+    calc(var(--night-actions-bottom) + env(safe-area-inset-bottom));
+  text-align: center;
+}
+
+.night-label {
+  font-size: var(--fs-small);
+  font-weight: var(--fw-regular);
+  letter-spacing: var(--tracking-night);
+  color: var(--night-ink-faint);
+  text-transform: uppercase;
+}
+
+.night-label--top:focus {
+  outline: none;
+}
+
+.session-glow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--session-glow);
+  height: var(--session-glow);
+  margin: calc(var(--session-glow) / -2) 0 0 calc(var(--session-glow) / -2);
+  border-radius: 50%;
+  background: var(--night-glow-deep);
+  opacity: var(--night-glow-opacity);
+  filter: blur(var(--night-glow-blur));
+  pointer-events: none;
+}
+
+.session-ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--session-ring);
+  height: var(--session-ring);
+  margin: calc(var(--session-ring) / -2) 0 0 calc(var(--session-ring) / -2);
+  border-radius: 50%;
+  border: var(--hairline) solid var(--night-ring);
+}
+
+.session-time {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(50% + var(--session-ring) / 2 + var(--space-3));
+  font: var(--fw-light) var(--fs-session-time) / 1 var(--font-display);
+  font-variant-numeric: tabular-nums;
+  color: var(--night-ink-faint);
+}
+
+.night-notice {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: calc(var(--night-actions-bottom) + var(--button-h) + var(--space-3));
+  font-size: var(--fs-small);
+  color: var(--night-ink-muted);
+}
+
+.night-actions {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--night-actions-bottom) + env(safe-area-inset-bottom));
+  display: flex;
+  justify-content: center;
+  gap: var(--space-1-5);
+}
+
+.night-actions .btn {
+  padding: 0 var(--gutter);
+}
+
+.night-title {
+  font: var(--fw-regular) var(--fs-title) / var(--lh-tight) var(--font-display);
+  color: var(--night-ink);
+}
+
+.night-title:focus {
+  outline: none;
+}
+
+.night-screen--done {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: calc(var(--screen-top) * 2 + env(safe-area-inset-top));
+}
+
+.done-summary {
+  margin: var(--space-5) 0 0;
+}
+
+.done-summary dd {
+  margin: var(--space-1) 0 0;
+}
+
+.done-value {
+  font: var(--fw-light) var(--fs-done-value) / 1 var(--font-display);
+  color: var(--night-ink);
+}

@@ -3,6 +3,8 @@ import { ScreenTitle } from '../components/ScreenTitle';
 import { hrefFor } from '../router';
 import { t } from '../strings.it';
 import { useUpdateState, type OfflineState } from '../../pwa/update';
+import { setBusVolume, strike, unlockAudio } from '../../audio/engine';
+import { updateSettings, useSettings } from '../useSettings';
 
 const OFFLINE_LABEL: Record<OfflineState, string> = {
   ready: t.settings.offlineReady,
@@ -12,6 +14,18 @@ const OFFLINE_LABEL: Record<OfflineState, string> = {
 
 export function Settings() {
   const { offline } = useUpdateState();
+  const { bellVolume } = useSettings();
+
+  const setBellVolume = (value: number) => {
+    updateSettings((s) => ({ ...s, bellVolume: value }));
+    setBusVolume('bells', value);
+  };
+
+  const testBell = () => {
+    const ctx = unlockAudio();
+    setBusVolume('bells', bellVolume);
+    strike('bowl', ctx.currentTime);
+  };
   return (
     <main className="screen">
       <header className="settings-header">
@@ -20,6 +34,29 @@ export function Settings() {
         </a>
         <ScreenTitle>{t.settings.title}</ScreenTitle>
       </header>
+      <div className="row">
+        <label htmlFor="bell-volume">{t.settings.bellVolume}</label>
+        <input
+          id="bell-volume"
+          className="slider"
+          type="range"
+          min={0}
+          max={100}
+          step={5}
+          value={Math.round(bellVolume * 100)}
+          onChange={(e) => {
+            setBellVolume(Number(e.currentTarget.value) / 100);
+          }}
+        />
+        <button
+          type="button"
+          className="btn btn--small glass"
+          aria-label={t.settings.testBellLabel}
+          onClick={testBell}
+        >
+          {t.settings.testBell}
+        </button>
+      </div>
       <dl className="rows">
         <div className="row">
           <dt>{t.settings.offline}</dt>

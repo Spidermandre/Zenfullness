@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { formatLongDate, greetingFor } from './format';
+import { formatClock, formatLongDate, formatMinutes, greetingFor } from './format';
 
 describe('formatLongDate', () => {
   it('formats like the design (weekday day month), capitalised', () => {
@@ -15,5 +15,21 @@ describe('greetingFor', () => {
     expect(greetingFor(at(13))).toBe('Buon pomeriggio');
     expect(greetingFor(at(18))).toBe('Buonasera');
     expect(greetingFor(at(2))).toBe('Buonasera');
+  });
+});
+
+describe('formatMinutes', () => {
+  it('formats durations', () => {
+    expect(formatMinutes(1500)).toBe('25 min');
+    expect(formatMinutes(29)).toBe('0 min');
+    expect(formatMinutes(3900)).toBe('1 h 05');
+  });
+});
+
+describe('formatClock', () => {
+  it('rounds up and never goes below zero', () => {
+    expect(formatClock(245)).toBe('4:05');
+    expect(formatClock(0.2)).toBe('0:01');
+    expect(formatClock(-3)).toBe('0:00');
   });
 });
