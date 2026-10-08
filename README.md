@@ -66,16 +66,15 @@ Source: GitHub Actions**.
 
 Bersagli principali: Safari su iOS (riferimento: iPhone 14 Pro con iOS 27) e Chrome su Android.
 
-| Limite                                    | Comportamento dell'app                                                                                         |
-| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| L'audio parte solo dopo un gesto          | L'audio si sblocca al tocco su "Inizia"; nessun suono parte da solo.                                           |
-| Interruttore silenzioso di iPhone         | `navigator.audioSession.type = 'playback'` (iOS 17+) fa suonare le campane anche in modalità silenziosa.       |
-| Timer in background rallentati            | Lo stato si calcola sempre da istanti assoluti; le campane sono programmate sull'orologio dell'AudioContext.   |
-| Schermo bloccato: iOS sospende l'audio    | Wake Lock tiene lo schermo acceso e viene riacquisito al ritorno in primo piano.                               |
-| Wake Lock assente o non affidabile        | Ripiego: video muto e invisibile in loop. Su iOS 27 il Wake Lock standard funziona anche nell'app installata.  |
-| Vibrazione assente su iOS                 | Solo segnali visivi e sonori.                                                                                  |
-| Torcia non controllabile dal web su iOS   | Il battito dalla fotocamera richiede una luce ambiente forte; con segnale scarso nessun numero viene mostrato. |
-| Aggiornamento dell'app durante una seduta | La nuova versione aspetta: viene proposta solo quando nessuna pratica è in corso.                              |
+| Limite                                    | Comportamento dell'app                                                                                        |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| L'audio parte solo dopo un gesto          | L'audio si sblocca al tocco su "Inizia"; nessun suono parte da solo.                                          |
+| Interruttore silenzioso di iPhone         | `navigator.audioSession.type = 'playback'` (iOS 17+) fa suonare le campane anche in modalità silenziosa.      |
+| Timer in background rallentati            | Lo stato si calcola sempre da istanti assoluti; le campane sono programmate sull'orologio dell'AudioContext.  |
+| Schermo bloccato: iOS sospende l'audio    | Wake Lock tiene lo schermo acceso e viene riacquisito al ritorno in primo piano.                              |
+| Wake Lock assente o non affidabile        | Ripiego: video muto e invisibile in loop. Su iOS 27 il Wake Lock standard funziona anche nell'app installata. |
+| Vibrazione assente su iOS                 | Solo segnali visivi e sonori.                                                                                 |
+| Aggiornamento dell'app durante una seduta | La nuova versione aspetta: viene proposta solo quando nessuna pratica è in corso.                             |
 
 I dettagli tecnici si aggiornano a ogni tappa.
 
