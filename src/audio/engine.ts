@@ -2,6 +2,7 @@ import { strikeSpec } from './instruments';
 import { renderStrike, type Voice } from './render';
 import type { Random } from './random';
 import type { Instrument } from '../timer/plan';
+import { createSoundscapePlayer, type SoundscapePlayer } from './soundscapes/player';
 
 /**
  * The single AudioContext of the app and its mixing buses.
@@ -92,4 +93,13 @@ export function strike(
 ): Voice {
   const e = getEngine();
   return renderStrike(e.ctx, e.bells, strikeSpec(instrument, random, gain), when);
+}
+
+let soundscape: SoundscapePlayer | undefined;
+
+/** The single ambient soundscape player, on the ambient bus. */
+export function getSoundscape(): SoundscapePlayer {
+  const e = getEngine();
+  soundscape ??= createSoundscapePlayer(e.ctx, e.ambient);
+  return soundscape;
 }
