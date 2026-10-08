@@ -8,6 +8,7 @@ const coherence: BreathConfig = {
   counting: false,
   minutes: 6,
   sound: true,
+  ambient: false,
 };
 
 describe('breathCues', () => {

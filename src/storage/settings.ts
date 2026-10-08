@@ -1,5 +1,6 @@
 import type { BellSet, Period, SittingConfig } from '../timer/plan';
 import { clampPhases, type Phases, type PatternId } from '../breath/patterns';
+import { DEFAULT_MIX, LAYER_IDS, type Mix } from '../audio/soundscapes/mix';
 
 /**
  * Light settings, kept in localStorage (synchronous, tiny, read at startup).
@@ -17,6 +18,7 @@ export interface BreathSettings {
   minutes: number;
   sound: boolean;
   haptics: boolean;
+  ambient: boolean;
 }
 
 export interface Settings {
@@ -29,6 +31,8 @@ export interface Settings {
   sitting: SittingConfig;
   presets: SavedPreset[];
   breath: BreathSettings;
+  /** Soundscape layers and their levels. */
+  mix: Mix;
 }
 
 export const BREATH_MINUTES: readonly number[] = [3, 6, 10, 15, 20];
@@ -45,6 +49,7 @@ export const DEFAULT_SETTINGS: Settings = {
     bells: 'traditional',
     midBell: false,
     showTime: false,
+    ambient: false,
   },
   presets: [],
   breath: {
@@ -53,7 +58,9 @@ export const DEFAULT_SETTINGS: Settings = {
     minutes: 6,
     sound: true,
     haptics: true,
+    ambient: false,
   },
+  mix: DEFAULT_MIX,
 };
 
 type Unknown = Record<string, unknown>;
@@ -83,6 +90,7 @@ function sitting(v: unknown): SittingConfig {
     bells: BELL_SETS.find((b) => b === v.bells) ?? d.bells,
     midBell: bool(v.midBell, d.midBell),
     showTime: bool(v.showTime, d.showTime),
+    ambient: bool(v.ambient, d.ambient),
   };
 }
 
@@ -110,7 +118,22 @@ function breath(v: unknown): BreathSettings {
     minutes: BREATH_MINUTES.find((m) => m === v.minutes) ?? d.minutes,
     sound: bool(v.sound, d.sound),
     haptics: bool(v.haptics, d.haptics),
+    ambient: bool(v.ambient, d.ambient),
   };
+}
+
+function mix(v: unknown): Mix {
+  const out = { ...DEFAULT_MIX };
+  if (!isObject(v)) return out;
+  for (const id of LAYER_IDS) {
+    const layer = v[id];
+    if (!isObject(layer)) continue;
+    out[id] = {
+      on: bool(layer.on, DEFAULT_MIX[id].on),
+      level: num(layer.level, DEFAULT_MIX[id].level, 0, 1),
+    };
+  }
+  return out;
 }
 
 export function parseSettings(raw: unknown): Settings {
@@ -129,6 +152,7 @@ export function parseSettings(raw: unknown): Settings {
     sitting: sitting(raw.sitting),
     presets,
     breath: breath(raw.breath),
+    mix: mix(raw.mix),
   };
 }
 

@@ -27,6 +27,7 @@ describe('settings', () => {
       bells: 'traditional',
       midBell: false,
       showTime: false,
+      ambient: false,
     });
   });
 
@@ -85,7 +86,14 @@ describe('settings', () => {
       minutes: DEFAULT_SETTINGS.breath.minutes,
       sound: false,
       haptics: true,
+      ambient: false,
     });
+  });
+
+  it('validates the soundscape mix layer by layer', () => {
+    const parsed = parseSettings({ mix: { wind: { on: true, level: 3 }, rain: 'x' } });
+    expect(parsed.mix.wind).toEqual({ on: true, level: 1 });
+    expect(parsed.mix.rain).toEqual(DEFAULT_SETTINGS.mix.rain);
   });
 
   it('compares sequences', () => {

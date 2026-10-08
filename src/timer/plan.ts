@@ -23,6 +23,8 @@ export interface SittingConfig {
   /** One soft strike halfway through each zazen period. */
   midBell: boolean;
   showTime: boolean;
+  /** Play the ambient soundscape during the sitting (fades out at the end). */
+  ambient: boolean;
 }
 
 export interface Segment {

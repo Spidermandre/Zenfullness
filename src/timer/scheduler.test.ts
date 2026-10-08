@@ -32,6 +32,7 @@ const plan = buildPlan({
   bells: 'traditional',
   midBell: false,
   showTime: false,
+  ambient: false,
 });
 
 describe('cue scheduler', () => {

@@ -8,6 +8,8 @@ export interface BreathConfig {
   counting: boolean;
   minutes: number;
   sound: boolean;
+  /** Play the ambient soundscape during the session. */
+  ambient: boolean;
 }
 
 export interface BreathSnapshot extends PracticeSnapshot {

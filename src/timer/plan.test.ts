@@ -7,6 +7,7 @@ const base: SittingConfig = {
   bells: 'traditional',
   midBell: false,
   showTime: false,
+  ambient: false,
 };
 
 describe('buildPlan', () => {

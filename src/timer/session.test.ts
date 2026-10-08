@@ -36,6 +36,7 @@ const config: SittingConfig = {
   bells: 'traditional',
   midBell: false,
   showTime: false,
+  ambient: false,
 };
 
 describe('sitting', () => {
