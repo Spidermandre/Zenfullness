@@ -44,7 +44,7 @@ src/
   sessions/      meditazioni guidate: formato, contenuti (content/*.md), voce
   storage/       IndexedDB con migrazioni (registro), impostazioni leggere
   history/       statistiche dello storico (totali, calendario)
-  path/          regole del percorso adattivo                                 — tappa 7
+  path/          regole del percorso adattivo (spiegate in src/path/RULES.md)
   pwa/           service worker e aggiornamenti che non interrompono la seduta
   ui/            token di design, componenti, schermate, stringhe italiane
 ```

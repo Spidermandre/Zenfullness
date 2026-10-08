@@ -149,6 +149,17 @@ Wake Lock available in standalone mode since iOS 18.4). Android Chrome is the se
   today/yesterday by calendar day. Storico follows design 06; added month navigation
   and weekday initials. The calendar is an ordered list with hidden full-date labels.
 
+## Adaptive path (stage 7)
+
+- `src/path/rules.ts`: pure rules, documented in `src/path/RULES.md` (Italian, for the
+  user) and covered by `rules.test.ts`. Inputs: log entries, now, guided catalog. Output:
+  a `Suggestion` (zazen minutes / long-exhale breath / guided session) with reason codes
+  and values. Texts for card lines and "Perché?" live in `strings.it.ts` (`path`).
+- Card lines after a pause or early ends are neutral ("Una seduta semplice."); the
+  factual reason appears only under "Perché?" (inline disclosure, `aria-expanded`).
+- `ui/launch.ts` starts any practice from a tap (Zazen, Respiro, Guidate, Oggi card).
+- e2e `helpers.ts#seedLog` writes log entries straight into IndexedDB.
+
 ## Product decisions (from the user)
 
 - **No import/export.** Stage 6 is history and stats only: no backup file, no import.
@@ -199,3 +210,5 @@ Wake Lock available in standalone mode since iOS 18.4). Android Chrome is the se
    Guidate list per design, playback with text + Italian TTS or a recording.
 6. **History** — done (no import/export, by user decision). IndexedDB log with
    migrations, note on the end screen, Storico per design.
+7. **Adaptive path** — done. Rule module + RULES.md + tests; "Pratica di oggi" card with
+   Inizia (starts the proposal directly) and Perché?.
