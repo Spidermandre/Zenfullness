@@ -100,6 +100,7 @@ Bersagli principali: Safari su iOS (riferimento: iPhone 14 Pro con iOS 27) e Chr
 | Schermo bloccato: iOS sospende l'audio    | Wake Lock tiene lo schermo acceso e viene riacquisito al ritorno in primo piano.                              |
 | Wake Lock assente o non affidabile        | Ripiego: video muto e invisibile in loop. Su iOS 27 il Wake Lock standard funziona anche nell'app installata. |
 | Vibrazione assente su iOS                 | Solo segnali visivi e sonori.                                                                                 |
+| Sintesi vocale su iOS solo dopo un tocco  | La voce si sblocca sul tocco di avvio; senza voci italiane le istruzioni restano solo testo.                  |
 | Aggiornamento dell'app durante una seduta | La nuova versione aspetta: viene proposta solo quando nessuna pratica è in corso.                             |
 
 I dettagli tecnici si aggiornano a ogni tappa.
