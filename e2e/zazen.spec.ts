@@ -1,8 +1,12 @@
 import { expect, test } from './fixtures';
 
+const T0 = new Date('2026-10-08T07:00:00');
+
+// Frozen clock: time only moves when the test says so (no real-time drift on slow CI).
 test.beforeEach(async ({ page }) => {
-  await page.clock.install();
+  await page.clock.install({ time: T0 });
   await page.goto('./#/zazen');
+  await page.clock.pauseAt(new Date(T0.getTime() + 1000));
 });
 
 async function setPrepNone(page: import('@playwright/test').Page) {

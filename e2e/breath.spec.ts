@@ -1,11 +1,26 @@
 import { expect, test } from './fixtures';
 
+const T0 = new Date('2026-10-08T07:00:00');
+
+// Time is frozen after load and only moves when the test says so: with a running clock
+// a slow CI machine adds real seconds between steps and breath boundaries drift.
 test.beforeEach(async ({ page }) => {
-  await page.clock.install();
+  await page.clock.install({ time: T0 });
   await page.goto('./#/respiro');
+  await page.clock.pauseAt(new Date(T0.getTime() + 1000));
 });
 
 const word = (page: import('@playwright/test').Page) => page.locator('.pacer__label');
+
+/**
+ * Jumps the fake clock, then lets a few animation frames run at the new time.
+ * fastForward fires a pending requestAnimationFrame at most once, possibly at an
+ * intermediate instant, so the pacer label must be redrawn before it is checked.
+ */
+async function jump(page: import('@playwright/test').Page, ms: number) {
+  await page.clock.fastForward(ms);
+  await page.clock.runFor(100);
+}
 
 test('a 4–6 session: words follow the breath, chips hide, ends after whole breaths', async ({
   page,
@@ -39,11 +54,11 @@ test('susokukan counts exhalations in words, 1 to 10', async ({ page }) => {
   await page.getByRole('button', { name: 'Inizia' }).click();
   await page.clock.runFor(5000);
   await expect(word(page)).toHaveText('uno');
-  await page.clock.fastForward(10_000);
+  await jump(page, 10_000);
   await expect(word(page)).toHaveText('due');
-  await page.clock.fastForward(80_000);
+  await jump(page, 80_000);
   await expect(word(page)).toHaveText('dieci');
-  await page.clock.fastForward(10_000);
+  await jump(page, 10_000);
   await expect(word(page)).toHaveText('uno');
 });
 
@@ -53,7 +68,7 @@ test('pause freezes the pacer; paused session can be ended', async ({ page }) =>
   await page.clock.runFor(5000);
   await expect(word(page)).toHaveText('trattieni');
   await page.getByRole('button', { name: 'Pausa' }).click();
-  await page.clock.fastForward(10_000);
+  await jump(page, 10_000);
   await expect(word(page)).toHaveText('trattieni');
   await page.getByRole('button', { name: 'Termina' }).click();
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Respiro interrotto');

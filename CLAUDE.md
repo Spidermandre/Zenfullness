@@ -93,7 +93,10 @@ Wake Lock available in standalone mode since iOS 18.4). Android Chrome is the se
   does not exist (all iOS browsers).
 - Respiro keeps a night-variant tab bar when idle (design shows none); hidden while
   running. Custom-pattern editor is a night glass panel (not in the design).
-- e2e: prefer `page.clock.fastForward` for long jumps; `runFor` steps every frame.
+- e2e with time: `clock.install({ time })`, `goto`, then `clock.pauseAt(...)` so time only
+  moves when the test says (a running fake clock drifts on slow CI). Use `fastForward` for
+  long jumps, then `runFor(100)` before checking anything drawn by requestAnimationFrame
+  (fastForward fires a pending rAF at most once, at an intermediate instant).
 
 ## Product decisions (from the user)
 
