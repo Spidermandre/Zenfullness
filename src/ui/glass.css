@@ -1,0 +1,183 @@
+/* Liquid-glass components from the design: light, primary and night variants. */
+.glass {
+  background: var(--glass-fill);
+  border: var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+}
+
+.glass--primary {
+  background: var(--glass-primary-fill);
+  border: var(--glass-primary-border);
+  box-shadow: var(--glass-primary-shadow);
+  color: var(--on-accent);
+}
+
+.glass--night {
+  background: var(--glass-night-fill);
+  border: var(--glass-night-border);
+  box-shadow: var(--glass-night-shadow);
+  color: var(--night-ink-soft);
+}
+
+/* ── Buttons ──────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--button-h);
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-body-sm);
+  color: var(--accent);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease-calm);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn.glass--primary {
+  font-size: var(--fs-body);
+  font-weight: var(--fw-semibold);
+  color: var(--on-accent);
+}
+
+.btn.glass--night {
+  color: var(--night-ink-soft);
+}
+
+.btn--lg {
+  height: var(--button-h-lg);
+  font-size: var(--fs-row);
+}
+
+.btn--block {
+  width: 100%;
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--icon-button);
+  height: var(--icon-button);
+  padding: 0;
+  border-radius: 50%;
+  color: var(--accent);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.icon-btn svg {
+  width: 50%;
+  height: 50%;
+}
+
+/* ── Cards ────────────────────────────────────────────────────────────── */
+.card {
+  padding: var(--space-3);
+  border-radius: var(--radius-hero-card);
+  background: var(--glass-card-fill);
+  border: var(--glass-card-border);
+  box-shadow: var(--glass-card-shadow);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+}
+
+/* ── List rows ────────────────────────────────────────────────────────── */
+.rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--row-pad-y) var(--space-half);
+  border-bottom: var(--hairline) solid var(--line);
+  font-size: var(--fs-body);
+}
+
+.row__value {
+  color: var(--ink-muted);
+}
+
+/* ── Tab bar ──────────────────────────────────────────────────────────── */
+.tabbar {
+  position: fixed;
+  left: max(var(--tabbar-inset), calc((100vw - var(--app-max-width)) / 2 + var(--tabbar-inset)));
+  right: max(var(--tabbar-inset), calc((100vw - var(--app-max-width)) / 2 + var(--tabbar-inset)));
+  bottom: calc(var(--tabbar-bottom) + env(safe-area-inset-bottom));
+  height: var(--tabbar-h);
+  border-radius: var(--radius-pill);
+  background: var(--glass-tabbar-fill);
+  border: var(--glass-border);
+  box-shadow: var(--glass-tabbar-shadow);
+  -webkit-backdrop-filter: var(--glass-blur-strong);
+  backdrop-filter: var(--glass-blur-strong);
+  z-index: 10;
+}
+
+.tabbar ul {
+  display: flex;
+  height: 100%;
+  margin: 0;
+  padding: 0 var(--space-1);
+  list-style: none;
+  align-items: stretch;
+  justify-content: space-around;
+}
+
+.tabbar li {
+  display: flex;
+  flex: 1;
+}
+
+.tabbar a {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-label);
+  color: var(--ink-tab-idle);
+  text-decoration: none;
+}
+
+.tabbar a[aria-current='page'] {
+  color: var(--accent);
+  font-weight: var(--fw-bold);
+}
+
+/* ── Update notice (added: not in design; uses existing glass pill) ───── */
+.update-notice {
+  position: fixed;
+  left: 50%;
+  top: calc(var(--space-2) + env(safe-area-inset-top));
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1-5);
+  padding: var(--space-1) var(--space-1) var(--space-1) var(--space-2);
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-small);
+  z-index: 20;
+  white-space: nowrap;
+}
+
+.update-notice .btn {
+  height: var(--icon-button);
+  padding: 0 var(--space-2);
+  font-size: var(--fs-small);
+}
+
+.icon-btn.glass--night {
+  color: var(--night-ink);
+}

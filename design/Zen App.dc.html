@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet><meta name="design_doc_mode" content="canvas"></meta></helmet>
+<div style="min-height:100vh;background:#DAD8CF;padding:60px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#1F2A25">
+<div style="font:600 12px/1 ui-monospace,monospace;letter-spacing:.14em;color:#5B665F;margin-bottom:8px">DESIGN · APP ZEN · 6 SCHERMATE · TOKEN IN design/tokens.css</div>
+<div style="font:400 40px/1.1 'Iowan Old Style',Georgia,serif;margin-bottom:48px">Zazen — interfaccia mobile</div>
+<div style="display:flex;flex-wrap:wrap;gap:48px">
+
+<!-- 1 HOME -->
+<div id="1a" data-screen-label="01 Home" style="width:390px;height:844px;border-radius:48px;overflow:hidden;position:relative;background:#F3F1EA;box-shadow:0 30px 60px rgba(40,50,45,.2)">
+<div style="position:absolute;width:300px;height:300px;border-radius:50%;background:#B9D3C2;filter:blur(60px);top:-60px;right:-80px"></div>
+<div style="position:absolute;width:260px;height:260px;border-radius:50%;background:#E8D9B8;filter:blur(70px);top:380px;left:-100px"></div>
+<div style="position:relative;padding:72px 28px 0">
+<div style="font-size:14px;color:#5B665F">Mercoledì 8 ottobre</div>
+<div style="font:400 40px/1.1 'Iowan Old Style',Georgia,serif;margin:6px 0 32px">Buongiorno</div>
+<div style="padding:24px;border-radius:32px;background:linear-gradient(180deg,rgba(255,255,255,.6),rgba(255,255,255,.25));backdrop-filter:blur(20px) saturate(160%);border:1px solid rgba(255,255,255,.7);box-shadow:inset 0 1px 0 #fff,0 12px 32px rgba(60,80,70,.12)">
+<div style="font-size:12px;letter-spacing:.12em;color:#4A6A58;font-weight:600">PRATICA DI OGGI</div>
+<div style="font:400 30px/1.15 'Iowan Old Style',Georgia,serif;margin:10px 0 6px">Zazen, 20 minuti</div>
+<div style="font-size:15px;line-height:1.45;color:#4A554E">Hai praticato con regolarità questa settimana. Si resta su 20 minuti.</div>
+<div style="display:flex;gap:10px;margin-top:22px;align-items:center">
+<div style="flex:1;height:52px;border-radius:26px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:16px;background:linear-gradient(180deg,rgba(88,128,106,.92),rgba(44,78,62,.92));backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.45);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.55),inset 0 -10px 18px rgba(255,255,255,.08),0 10px 24px rgba(44,78,62,.35)">Inizia</div>
+<div style="height:52px;padding:0 20px;border-radius:26px;display:flex;align-items:center;font-size:15px;color:#2C4E3E;background:linear-gradient(180deg,rgba(255,255,255,.7),rgba(255,255,255,.25));backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.8);box-shadow:inset 0 1px 0 #fff,0 6px 16px rgba(60,80,70,.12)">Perché?</div>
+</div></div>
+<div style="font-size:12px;letter-spacing:.12em;color:#5B665F;font-weight:600;margin:32px 0 12px">ALTRE PRATICHE</div>
+<sc-for list="{{ quick }}" as="q" hint-placeholder-count="3"><div style="display:flex;justify-content:space-between;align-items:center;padding:18px 4px;border-bottom:1px solid rgba(31,42,37,.1)"><div><div style="font-size:17px">{{ q.t }}</div><div style="font-size:13px;color:#5B665F;margin-top:2px">{{ q.s }}</div></div><div style="color:#8A958E;font-size:20px">›</div></div></sc-for>
+</div>
+<div style="position:absolute;left:16px;right:16px;bottom:20px;height:68px;border-radius:34px;display:flex;align-items:center;justify-content:space-around;background:linear-gradient(180deg,rgba(255,255,255,.65),rgba(255,255,255,.3));backdrop-filter:blur(24px) saturate(170%);border:1px solid rgba(255,255,255,.8);box-shadow:inset 0 1px 0 #fff,0 10px 30px rgba(60,80,70,.15)">
+<sc-for list="{{ tabs0 }}" as="t" hint-placeholder-count="5"><span style="font-size:12px;color:{{ t.c }};font-weight:{{ t.w }}">{{ t.l }}</span></sc-for></div>
+</div>
+
+<!-- 2 ZAZEN SETUP -->
+<div id="1b" data-screen-label="02 Zazen" style="width:390px;height:844px;border-radius:48px;overflow:hidden;position:relative;background:#F3F1EA;box-shadow:0 30px 60px rgba(40,50,45,.2)">
+<div style="position:absolute;width:280px;height:280px;border-radius:50%;background:#C9DCCF;filter:blur(60px);top:100px;left:-90px"></div>
+<div style="position:absolute;width:240px;height:240px;border-radius:50%;background:#E8D9B8;filter:blur(70px);bottom:60px;right:-80px"></div>
+<div style="position:relative;padding:72px 28px 0">
+<div style="font:400 34px/1.1 'Iowan Old Style',Georgia,serif">Zazen</div>
+<div style="display:flex;align-items:center;justify-content:space-between;margin:36px 0 8px">
+<div style="width:56px;height:56px;border-radius:28px;display:flex;align-items:center;justify-content:center;font-size:26px;background:linear-gradient(180deg,rgba(255,255,255,.7),rgba(255,255,255,.25));backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.8);box-shadow:inset 0 1px 0 #fff,0 6px 16px rgba(60,80,70,.12)">−</div>
+<div style="text-align:center"><div style="font:300 84px/1 'Iowan Old Style',Georgia,serif">25</div><div style="font-size:14px;color:#5B665F;margin-top:4px">minuti</div></div>
+<div style="width:56px;height:56px;border-radius:28px;display:flex;align-items:center;justify-content:center;font-size:26px;background:linear-gradient(180deg,rgba(255,255,255,.7),rgba(255,255,255,.25));backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.8);box-shadow:inset 0 1px 0 #fff,0 6px 16px rgba(60,80,70,.12)">+</div></div>
+<div style="display:flex;gap:8px;justify-content:center;margin:20px 0 28px">
+<sc-for list="{{ presets }}" as="p" hint-placeholder-count="4"><span style="padding:9px 16px;border-radius:20px;font-size:14px;color:{{ p.c }};background:{{ p.b }};border:1px solid rgba(255,255,255,.7);backdrop-filter:blur(10px)">{{ p.l }}</span></sc-for></div>
+<div style="font-size:12px;letter-spacing:.12em;color:#5B665F;font-weight:600;margin-bottom:8px">SEQUENZA</div>
+<sc-for list="{{ seq }}" as="s" hint-placeholder-count="3"><div style="display:flex;justify-content:space-between;padding:14px 4px;border-bottom:1px solid rgba(31,42,37,.1);font-size:16px"><span>{{ s.n }}</span><span style="color:#5B665F">{{ s.d }}</span></div></sc-for>
+<div style="display:flex;justify-content:space-between;padding:14px 4px;border-bottom:1px solid rgba(31,42,37,.1);font-size:16px;margin-top:10px"><span>Preparazione</span><span style="color:#5B665F">10 s</span></div>
+<div style="display:flex;justify-content:space-between;padding:14px 4px;border-bottom:1px solid rgba(31,42,37,.1);font-size:16px"><span>Campane</span><span style="color:#5B665F">Tradizionali</span></div>
+<div style="display:flex;justify-content:space-between;padding:14px 4px;font-size:16px"><span>Mostra tempo</span><span style="color:#5B665F">No</span></div>
+</div>
+<div style="position:absolute;left:28px;right:28px;bottom:36px;height:60px;border-radius:30px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:17px;background:linear-gradient(180deg,rgba(88,128,106,.92),rgba(44,78,62,.92));backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.45);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.55),inset 0 -10px 18px rgba(255,255,255,.08),0 12px 28px rgba(44,78,62,.38)">Inizia la seduta</div>
+</div>
+
+<!-- 3 SEDUTA -->
+<div id="1c" data-screen-label="03 Seduta" style="width:390px;height:844px;border-radius:48px;overflow:hidden;position:relative;background:#0B100E;box-shadow:0 30px 60px rgba(40,50,45,.2)">
+<div style="position:absolute;width:220px;height:220px;border-radius:50%;background:#2E4A3C;opacity:.35;filter:blur(70px);top:310px;left:85px"></div>
+<div style="position:absolute;top:72px;left:0;right:0;text-align:center;font-size:13px;letter-spacing:.14em;color:#7E8C84">ZAZEN · 1 DI 3</div>
+<div style="position:absolute;top:392px;left:155px;width:80px;height:80px;border-radius:50%;border:1px solid rgba(190,215,200,.35)"></div>
+<div style="position:absolute;left:0;right:0;bottom:56px;display:flex;justify-content:center;gap:14px">
+<div style="height:52px;padding:0 28px;border-radius:26px;display:flex;align-items:center;font-size:15px;color:#C9D6CE;background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.04));backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 8px 20px rgba(0,0,0,.4)">Pausa</div>
+<div style="height:52px;padding:0 28px;border-radius:26px;display:flex;align-items:center;font-size:15px;color:#C9D6CE;background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.04));backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 8px 20px rgba(0,0,0,.4)">Termina</div></div>
+</div>
+
+<!-- 4 RESPIRO -->
+<div id="1d" data-screen-label="04 Respiro" style="width:390px;height:844px;border-radius:48px;overflow:hidden;position:relative;background:#101A16;box-shadow:0 30px 60px rgba(40,50,45,.2)">
+<div style="position:absolute;width:340px;height:340px;border-radius:50%;background:#4F7F68;opacity:.4;filter:blur(60px);top:210px;left:25px"></div>
+<div style="position:absolute;top:72px;left:28px;right:28px"><div style="font:400 34px/1.1 'Iowan Old Style',Georgia,serif;color:#EEF3EF">Respiro</div><div style="font-size:15px;color:#9FB0A6;margin-top:6px">Espirazione lunga · 4–6</div></div>
+<div style="position:absolute;top:250px;left:75px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle at 35% 28%,rgba(255,255,255,.55),rgba(160,205,182,.28) 55%,rgba(100,160,130,.2));backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.4);box-shadow:inset 0 2px 0 rgba(255,255,255,.6),inset 0 -20px 40px rgba(255,255,255,.1),0 20px 60px rgba(60,120,90,.4);display:flex;align-items:center;justify-content:center;font:300 24px 'Iowan Old Style',Georgia,serif;color:#fff">inspira</div>
+<div style="position:absolute;left:0;right:0;bottom:150px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:0 24px">
+<sc-for list="{{ schemes }}" as="p" hint-placeholder-count="4"><span style="padding:9px 14px;border-radius:20px;font-size:13px;color:{{ p.c }};background:{{ p.b }};border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(10px)">{{ p.l }}</span></sc-for></div>
+<div style="position:absolute;left:28px;right:28px;bottom:56px;height:60px;border-radius:30px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:17px;background:linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,.08));backdrop-filter:blur(18px) saturate(170%);border:1px solid rgba(255,255,255,.35);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.55),inset 0 -10px 18px rgba(255,255,255,.06),0 12px 28px rgba(0,0,0,.4)">Pausa</div>
+</div>
+
+<!-- 5 GUIDATE -->
+<div id="1e" data-screen-label="05 Guidate" style="width:390px;height:844px;border-radius:48px;overflow:hidden;position:relative;background:#F3F1EA;box-shadow:0 30px 60px rgba(40,50,45,.2)">
+<div style="position:absolute;width:280px;height:280px;border-radius:50%;background:#E8D9B8;filter:blur(70px);top:-80px;left:-80px"></div>
+<div style="position:absolute;width:260px;height:260px;border-radius:50%;background:#B9D3C2;filter:blur(70px);bottom:120px;right:-100px"></div>
+<div style="position:relative;padding:72px 28px 0">
+<div style="font:400 34px/1.1 'Iowan Old Style',Georgia,serif;margin-bottom:24px">Guidate</div>
+<sc-for list="{{ guided }}" as="g" hint-placeholder-count="6"><div style="display:flex;justify-content:space-between;align-items:center;padding:16px 18px;margin-bottom:10px;border-radius:24px;background:linear-gradient(180deg,rgba(255,255,255,.6),rgba(255,255,255,.28));backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.75);box-shadow:inset 0 1px 0 #fff,0 6px 18px rgba(60,80,70,.08)"><div><div style="font-size:17px">{{ g.t }}</div><div style="font-size:13px;color:#5B665F;margin-top:2px">{{ g.d }} min</div></div><div style="width:40px;height:40px;border-radius:20px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;background:linear-gradient(180deg,rgba(88,128,106,.92),rgba(44,78,62,.92));border:1px solid rgba(255,255,255,.45);box-shadow:inset 0 1px 0 rgba(255,255,255,.5)">▶</div></div></sc-for>
+</div>
+<div style="position:absolute;left:16px;right:16px;bottom:20px;height:68px;border-radius:34px;display:flex;align-items:center;justify-content:space-around;background:linear-gradient(180deg,rgba(255,255,255,.65),rgba(255,255,255,.3));backdrop-filter:blur(24px) saturate(170%);border:1px solid rgba(255,255,255,.8);box-shadow:inset 0 1px 0 #fff,0 10px 30px rgba(60,80,70,.15)">
+<sc-for list="{{ tabs3 }}" as="t" hint-placeholder-count="5"><span style="font-size:12px;color:{{ t.c }};font-weight:{{ t.w }}">{{ t.l }}</span></sc-for></div>
+</div>
+
+<!-- 6 STORICO -->
+<div id="1f" data-screen-label="06 Storico" style="width:390px;height:844px;border-radius:48px;overflow:hidden;position:relative;background:#F3F1EA;box-shadow:0 30px 60px rgba(40,50,45,.2)">
+<div style="position:absolute;width:280px;height:280px;border-radius:50%;background:#C9DCCF;filter:blur(70px);top:-60px;right:-90px"></div>
+<div style="position:relative;padding:72px 28px 0">
+<div style="font:400 34px/1.1 'Iowan Old Style',Georgia,serif">Storico</div>
+<div style="display:flex;gap:28px;margin:20px 0 24px"><div><div style="font:300 36px/1 'Iowan Old Style',Georgia,serif">14</div><div style="font-size:13px;color:#5B665F;margin-top:4px">sedute</div></div><div><div style="font:300 36px/1 'Iowan Old Style',Georgia,serif">5 h 10</div><div style="font-size:13px;color:#5B665F;margin-top:4px">in ottobre</div></div></div>
+<div style="padding:20px;border-radius:28px;background:linear-gradient(180deg,rgba(255,255,255,.6),rgba(255,255,255,.28));backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.75);box-shadow:inset 0 1px 0 #fff,0 8px 24px rgba(60,80,70,.08)">
+<div style="font-size:15px;font-weight:600;margin-bottom:14px">Ottobre 2026</div>
+<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center;font-size:13px">
+<sc-for list="{{ days }}" as="d" hint-placeholder-count="31"><div style="aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;color:{{ d.c }};background:{{ d.b }}">{{ d.n }}</div></sc-for></div></div>
+<div style="font-size:12px;letter-spacing:.12em;color:#5B665F;font-weight:600;margin:24px 0 8px">RECENTI</div>
+<sc-for list="{{ recent }}" as="r" hint-placeholder-count="3"><div style="display:flex;justify-content:space-between;padding:12px 4px;border-bottom:1px solid rgba(31,42,37,.1);font-size:15px"><span>{{ r.a }}</span><span style="color:#5B665F">{{ r.b }}</span></div></sc-for>
+</div>
+<div style="position:absolute;left:16px;right:16px;bottom:20px;height:68px;border-radius:34px;display:flex;align-items:center;justify-content:space-around;background:linear-gradient(180deg,rgba(255,255,255,.65),rgba(255,255,255,.3));backdrop-filter:blur(24px) saturate(170%);border:1px solid rgba(255,255,255,.8);box-shadow:inset 0 1px 0 #fff,0 10px 30px rgba(60,80,70,.15)">
+<sc-for list="{{ tabs4 }}" as="t" hint-placeholder-count="5"><span style="font-size:12px;color:{{ t.c }};font-weight:{{ t.w }}">{{ t.l }}</span></sc-for></div>
+</div>
+
+</div></div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const L = ['Oggi', 'Zazen', 'Respiro', 'Guidate', 'Storico'];
+    const tabs = a => L.map((l, i) => ({ l, c: i === a ? '#2C4E3E' : '#6F7B74', w: i === a ? 700 : 400 }));
+    const chip = (arr, on, dark) => arr.map((l, i) => ({
+      l,
+      c: i === on ? (dark ? '#fff' : '#fff') : (dark ? '#B8C6BD' : '#2C4E3E'),
+      b: i === on ? (dark ? 'rgba(255,255,255,.28)' : 'rgba(44,78,62,.85)') : (dark ? 'rgba(255,255,255,.07)' : 'rgba(255,255,255,.5)')
+    }));
+    const done = [2, 3, 5, 6, 7, 9, 10, 12, 13, 14, 16, 17, 19, 20];
+    const days = [];
+    for (let n = 1; n <= 31; n++) {
+      const d = done.includes(n);
+      days.push({ n, c: d ? '#fff' : '#4A554E', b: d ? 'rgba(44,78,62,.85)' : n === 8 ? 'rgba(255,255,255,.8)' : 'transparent' });
+    }
+    return {
+      tabs0: tabs(0), tabs3: tabs(3), tabs4: tabs(4),
+      quick: [{ t: 'Respirazione', s: 'Espirazione lunga · 6 min' }, { t: 'Guidata', s: 'Consapevolezza del respiro · 15 min' }, { t: 'Paesaggio sonoro', s: 'Pioggia · bordone' }],
+      presets: chip(['15', '20', '25', '40'], 2),
+      seq: [{ n: 'Zazen', d: '25 min' }, { n: 'Kinhin', d: '10 min' }, { n: 'Zazen', d: '25 min' }],
+      schemes: chip(['Susokukan', 'Quadrato', '4–6', '4–7–8', 'Coerenza'], 2, true),
+      guided: [['Postura', 10], ['Consapevolezza del respiro', 15], ['Scansione del corpo', 20], ['Shikantaza', 25], ['Suoni', 15], ['Benevolenza', 15]].map(a => ({ t: a[0], d: a[1] })),
+      days,
+      recent: [{ a: 'Zazen · 25 min', b: 'ieri' }, { a: 'Respiro · 6 min', b: '6 ott' }, { a: 'Guidata · Shikantaza', b: '5 ott' }]
+    };
+  }
+}
+</script>
+</body>
+</html>

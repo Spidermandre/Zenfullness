@@ -1,0 +1,43 @@
+/* Design tokens — Zazen app. Single source for colors, type, spacing, glass. */
+:root {
+  /* Light theme (paper + sage) */
+  --bg: #F3F1EA;
+  --bg-blob-sage: #B9D3C2;
+  --bg-blob-sand: #E8D9B8;
+  --ink: #1F2A25;
+  --ink-muted: #5B665F;
+  --accent: #2C4E3E;
+  --accent-hi: #58806A;
+  --line: rgba(31, 42, 37, .1);
+
+  /* Night theme (session, breath) */
+  --night-bg: #0B100E;
+  --night-bg-breath: #101A16;
+  --night-ink: #EEF3EF;
+  --night-ink-muted: #9FB0A6;
+  --night-glow: #4F7F68;
+
+  /* Type (system fonts only — no CDN) */
+  --font-display: 'Iowan Old Style', Georgia, serif;
+  --font-ui: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --fs-title: 34px; --fs-hero: 84px; --fs-body: 16px; --fs-small: 13px; --fs-label: 12px;
+
+  /* Spacing & radii */
+  --space-1: 8px; --space-2: 16px; --space-3: 24px; --space-4: 32px; --gutter: 28px;
+  --radius-card: 28px; --radius-pill: 999px; --radius-device: 48px;
+
+  /* Liquid glass */
+  --glass-fill: linear-gradient(180deg, rgba(255,255,255,.7), rgba(255,255,255,.25));
+  --glass-border: 1px solid rgba(255,255,255,.8);
+  --glass-blur: blur(16px) saturate(160%);
+  --glass-shadow: inset 0 1px 0 #fff, 0 6px 16px rgba(60,80,70,.12);
+  --glass-primary-fill: linear-gradient(180deg, rgba(88,128,106,.92), rgba(44,78,62,.92));
+  --glass-primary-border: 1px solid rgba(255,255,255,.45);
+  --glass-primary-shadow: inset 0 1.5px 0 rgba(255,255,255,.55), inset 0 -10px 18px rgba(255,255,255,.08), 0 12px 28px rgba(44,78,62,.38);
+  --glass-night-fill: linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.04));
+  --glass-night-border: 1px solid rgba(255,255,255,.16);
+  --glass-night-shadow: inset 0 1px 0 rgba(255,255,255,.25), 0 8px 20px rgba(0,0,0,.4);
+  --button-h: 52px; --button-h-lg: 60px; --tabbar-h: 68px;
+}
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+@media (prefers-reduced-transparency: reduce) { :root { --glass-fill: #fff; --glass-night-fill: #1b2420; --glass-blur: none; } }
