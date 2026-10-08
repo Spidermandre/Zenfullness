@@ -75,6 +75,19 @@ describe('settings', () => {
     }).not.toThrow();
   });
 
+  it('validates breath settings', () => {
+    const parsed = parseSettings({
+      breath: { pattern: 'custom', custom: { inhale: 0, exhale: 50 }, minutes: 7, sound: false },
+    });
+    expect(parsed.breath).toEqual({
+      pattern: 'custom',
+      custom: { inhale: 1, holdIn: 2, exhale: 20, holdOut: 2 },
+      minutes: DEFAULT_SETTINGS.breath.minutes,
+      sound: false,
+      haptics: true,
+    });
+  });
+
   it('compares sequences', () => {
     const a = [{ kind: 'zazen' as const, minutes: 25 }];
     expect(samePeriods(a, [{ kind: 'zazen', minutes: 25 }])).toBe(true);

@@ -1,4 +1,5 @@
 import type { BellSet, Period, SittingConfig } from '../timer/plan';
+import { clampPhases, type Phases, type PatternId } from '../breath/patterns';
 
 /**
  * Light settings, kept in localStorage (synchronous, tiny, read at startup).
@@ -10,6 +11,14 @@ export interface SavedPreset {
   periods: Period[];
 }
 
+export interface BreathSettings {
+  pattern: PatternId;
+  custom: Phases;
+  minutes: number;
+  sound: boolean;
+  haptics: boolean;
+}
+
 export interface Settings {
   version: 1;
   /** 0..1 */
@@ -19,7 +28,10 @@ export interface Settings {
   /** Last sitting configuration, restored on the Zazen screen. */
   sitting: SittingConfig;
   presets: SavedPreset[];
+  breath: BreathSettings;
 }
+
+export const BREATH_MINUTES: readonly number[] = [3, 6, 10, 15, 20];
 
 export const STORAGE_KEY = 'zenfullness.settings';
 
@@ -35,6 +47,13 @@ export const DEFAULT_SETTINGS: Settings = {
     showTime: false,
   },
   presets: [],
+  breath: {
+    pattern: 'long46',
+    custom: { inhale: 4, holdIn: 2, exhale: 6, holdOut: 2 },
+    minutes: 6,
+    sound: true,
+    haptics: true,
+  },
 };
 
 type Unknown = Record<string, unknown>;
@@ -67,6 +86,33 @@ function sitting(v: unknown): SittingConfig {
   };
 }
 
+const PATTERNS: readonly PatternId[] = [
+  'susokukan',
+  'square',
+  'long46',
+  'long478',
+  'coherence',
+  'custom',
+];
+
+function breath(v: unknown): BreathSettings {
+  const d = DEFAULT_SETTINGS.breath;
+  if (!isObject(v)) return d;
+  const c = isObject(v.custom) ? v.custom : {};
+  return {
+    pattern: PATTERNS.find((p) => p === v.pattern) ?? d.pattern,
+    custom: clampPhases({
+      inhale: num(c.inhale, d.custom.inhale, 0, 99),
+      holdIn: num(c.holdIn, d.custom.holdIn, 0, 99),
+      exhale: num(c.exhale, d.custom.exhale, 0, 99),
+      holdOut: num(c.holdOut, d.custom.holdOut, 0, 99),
+    }),
+    minutes: BREATH_MINUTES.find((m) => m === v.minutes) ?? d.minutes,
+    sound: bool(v.sound, d.sound),
+    haptics: bool(v.haptics, d.haptics),
+  };
+}
+
 export function parseSettings(raw: unknown): Settings {
   if (!isObject(raw)) return DEFAULT_SETTINGS;
   const presets = Array.isArray(raw.presets)
@@ -82,6 +128,7 @@ export function parseSettings(raw: unknown): Settings {
     ambientVolume: num(raw.ambientVolume, DEFAULT_SETTINGS.ambientVolume, 0, 1),
     sitting: sitting(raw.sitting),
     presets,
+    breath: breath(raw.breath),
   };
 }
 

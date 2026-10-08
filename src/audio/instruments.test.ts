@@ -3,7 +3,7 @@ import { strikeSpec } from './instruments';
 import { seededRandom } from './random';
 import type { Instrument } from '../timer/plan';
 
-const INSTRUMENTS: Instrument[] = ['bowl', 'inkin', 'han', 'mokugyo'];
+const INSTRUMENTS: Instrument[] = ['bowl', 'inkin', 'han', 'mokugyo', 'breathIn', 'breathOut'];
 
 describe('strikeSpec', () => {
   it.each(INSTRUMENTS)('%s has inharmonic modes (not integer multiples)', (instrument) => {
@@ -64,5 +64,15 @@ describe('strikeSpec', () => {
     const loud = strikeSpec('bowl', seededRandom(6), 1);
     expect(soft.level).toBeLessThan(loud.level);
     for (const m of loud.modes) expect(m.gain).toBeLessThanOrEqual(1);
+  });
+});
+
+describe('breath tones', () => {
+  it('swell in slowly and stay quiet under the bells', () => {
+    const tone = strikeSpec('breathIn', seededRandom(1));
+    const bowl = strikeSpec('bowl', seededRandom(1));
+    expect(tone.attack).toBeGreaterThan(0.2);
+    expect(tone.level).toBeLessThan(bowl.level);
+    expect(tone.duration).toBeLessThan(6);
   });
 });

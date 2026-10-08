@@ -94,6 +94,29 @@ const RECIPES: Record<Instrument, Recipe> = {
     noise: { gain: 0.25, duration: 0.012, frequency: 3000, q: 1.1 },
     level: 0.55,
   },
+  // Breath cues: soft, short glass-like tones with a slow swell, no mallet click.
+  breathIn: {
+    fundamental: 528,
+    ratios: [1, 2.76, 5.4],
+    gains: [1, 0.12, 0.04],
+    t60: 3.2,
+    decayTilt: 0.6,
+    doublet: 0.002,
+    attack: 0.35,
+    noise: { gain: 0, duration: 0.01, frequency: 2000, q: 1 },
+    level: 0.16,
+  },
+  breathOut: {
+    fundamental: 396,
+    ratios: [1, 2.76, 5.4],
+    gains: [1, 0.12, 0.04],
+    t60: 4,
+    decayTilt: 0.6,
+    doublet: 0.002,
+    attack: 0.45,
+    noise: { gain: 0, duration: 0.01, frequency: 2000, q: 1 },
+    level: 0.16,
+  },
 };
 
 /** Builds the spec of one strike. `random` drives the per-strike variation. */
