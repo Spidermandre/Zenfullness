@@ -1,0 +1,38 @@
+/* Screen-level layout. Values come from tokens.css only. */
+.screen-lead {
+  margin-top: var(--space-3);
+}
+
+.today-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.today-date {
+  font-size: var(--fs-meta);
+  color: var(--ink-muted);
+}
+
+.today-greeting {
+  margin-top: var(--space-half);
+  font: var(--fw-regular) var(--fs-greeting) / var(--lh-tight) var(--font-display);
+}
+
+.today-greeting:focus {
+  outline: none;
+}
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+dl.rows,
+dl.rows dd {
+  margin: 0;
+}
