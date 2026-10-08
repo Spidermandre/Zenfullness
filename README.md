@@ -44,7 +44,6 @@ src/
   sessions/      meditazioni guidate: parser e file di contenuto              — tappa 5
   storage/       IndexedDB con migrazioni, impostazioni, export/import        — tappa 6
   path/          regole del percorso adattivo                                 — tappa 7
-  biofeedback/   respiro dal microfono, battito dalla fotocamera              — tappa 8
   pwa/           service worker e aggiornamenti che non interrompono la seduta
   ui/            token di design, componenti, schermate, stringhe italiane
 ```

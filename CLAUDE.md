@@ -27,7 +27,7 @@ Run `npm run check && npm run e2e` before every push.
 - All colours, px sizes, radii, shadows, durations in `src/ui/tokens.css`. Other CSS/TSX use
   `var(--…)` only — enforced by `src/ui/tokens.test.ts` (also checks WCAG AA contrast pairs).
   Deviations from `design/tokens.css` are annotated in tokens.css with `a11y:` / `added:`.
-- Logic (`audio/`, `timer/`, `breath/`, `biofeedback/`, `path/`, `storage/`, `sessions/`) is
+- Logic (`audio/`, `timer/`, `breath/`, `path/`, `storage/`, `sessions/`) is
   framework-free and unit-tested; React lives in `ui/` only.
 - Dependencies are minimal and each must be justified in this file.
 - e2e tests fail on any console error (`e2e/fixtures.ts`). Import `test` from there.
@@ -96,6 +96,10 @@ Wake Lock available in standalone mode since iOS 18.4). Android Chrome is the se
 - e2e: prefer `page.clock.fastForward` for long jumps; `runFor` steps every frame.
 
 ## Product decisions (from the user)
+
+- **No biofeedback.** Stage 8 (microphone breath rate, camera heart rate) is dropped:
+  no `biofeedback/` module, no microphone/camera permissions, no biofeedback fields in the
+  session log. Do not reintroduce it unless the user asks.
 
 - Settings: glass icon button top-right on Oggi (tab bar keeps the 5 design tabs).
 - Breath: scheme chips fade out while the pacer runs, return on pause.
