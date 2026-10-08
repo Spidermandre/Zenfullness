@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { getEngine, setBusVolume, strike, unlockAudio } from '../../audio/engine';
+import { getEngine, setBusVolume, strike } from '../../audio/engine';
 import {
   BUILT_IN,
   breathsPerMinute,
@@ -17,8 +17,9 @@ import { keepScreenOn } from '../../timer/wakeLock';
 import { EndScreen } from '../components/EndScreen';
 import { ScreenTitle } from '../components/ScreenTitle';
 import { useRecordOnFinish } from '../record';
-import { closePractice, openPractice } from '../practice';
-import { PRACTICE_FADE_OUT, startAmbient, stopAmbient } from '../ambient';
+import { closePractice } from '../practice';
+import { launchBreath } from '../launch';
+import { PRACTICE_FADE_OUT, stopAmbient } from '../ambient';
 import { t } from '../strings.it';
 import { getSettings, updateSettings, useSettings } from '../useSettings';
 
@@ -37,7 +38,7 @@ function phasesFor(id: PatternId, custom: Phases): Phases {
   return BUILT_IN.find((p) => p.id === id)?.phases ?? custom;
 }
 
-function subtitle(id: PatternId, phases: Phases): string {
+export function subtitle(id: PatternId, phases: Phases): string {
   const name = t.breath.name[id];
   if (id === 'susokukan') return `${name} · ${t.breath.countRange}`;
   if (id === 'coherence')
@@ -46,7 +47,7 @@ function subtitle(id: PatternId, phases: Phases): string {
   return `${name} · ${parts.join('–')}`;
 }
 
-function createBreathing(config: BreathConfig): Breathing {
+export function createBreathing(config: BreathConfig): Breathing {
   const { ctx } = getEngine();
   setBusVolume('bells', getSettings().bellVolume);
   return startBreathing(config, {
@@ -269,7 +270,6 @@ export function Breath({
   };
 
   const start = () => {
-    unlockAudio();
     const config: BreathConfig = {
       phases,
       counting,
@@ -277,15 +277,8 @@ export function Breath({
       sound: breath.sound,
       ambient: breath.ambient,
     };
-    if (config.ambient) startAmbient();
     setEditing(false);
-    openPractice({
-      kind: 'breath',
-      config,
-      breathing: createBreathing(config),
-      detail: subtitle(breath.pattern, phases),
-      startedAt: Date.now(),
-    });
+    launchBreath(config, subtitle(breath.pattern, phases));
   };
 
   const togglePause = () => {

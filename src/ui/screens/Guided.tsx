@@ -9,7 +9,7 @@ import { openPractice } from '../practice';
 import { t } from '../strings.it';
 import { getSettings, updateSettings, useSettings } from '../useSettings';
 
-function begin(session: GuidedSession): void {
+export function launchGuided(session: GuidedSession): void {
   // Everything below runs inside the tap: iOS allows audio and speech only from a gesture.
   unlockAudio();
   const settings = getSettings();
@@ -50,7 +50,7 @@ export function Guided() {
               className="guided-card"
               aria-label={`${t.guided.start}: ${session.title}, ${String(session.minutes)} ${t.guided.minutes}`}
               onClick={() => {
-                begin(session);
+                launchGuided(session);
               }}
             >
               <span>

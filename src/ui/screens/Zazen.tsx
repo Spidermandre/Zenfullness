@@ -11,9 +11,7 @@ import {
   type SittingConfig,
 } from '../../timer/plan';
 import { ScreenTitle } from '../components/ScreenTitle';
-import { openPractice } from '../practice';
-import { startAmbient } from '../ambient';
-import { createSitting } from './Sitting';
+import { launchSitting } from '../launch';
 import { t } from '../strings.it';
 import { updateSettings, useSettings } from '../useSettings';
 
@@ -97,14 +95,7 @@ export function Zazen() {
   };
 
   const start = () => {
-    unlockAudio();
-    if (sitting.ambient) startAmbient();
-    openPractice({
-      kind: 'sitting',
-      config: sitting,
-      sitting: createSitting(sitting),
-      startedAt: Date.now(),
-    });
+    launchSitting(sitting);
   };
 
   const durationChips: { key: string; label: string; pressed: boolean; onClick: () => void }[] = [
