@@ -1,12 +1,16 @@
 import { useSyncExternalStore } from 'react';
 import type { SittingConfig } from '../timer/plan';
 import type { Sitting } from '../timer/session';
+import type { BreathConfig, Breathing } from '../breath/session';
 
 /**
  * Which full-screen practice (if any) is on screen. Practices take over the whole app:
  * no tab bar, night theme.
  */
-export type Practice = { kind: 'sitting'; config: SittingConfig; sitting: Sitting } | undefined;
+export type Practice =
+  | { kind: 'sitting'; config: SittingConfig; sitting: Sitting }
+  | { kind: 'breath'; config: BreathConfig; breathing: Breathing }
+  | undefined;
 
 let current: Practice;
 const listeners = new Set<() => void>();

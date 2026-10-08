@@ -280,3 +280,195 @@ dl.rows dd {
   font: var(--fw-light) var(--fs-done-value) / 1 var(--font-display);
   color: var(--night-ink);
 }
+
+/* ── Breath (design 04) ───────────────────────────────────────────────── */
+.breath-screen {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  padding: calc(var(--breath-header-top) + env(safe-area-inset-top)) var(--gutter)
+    calc(var(--tabbar-clearance) + env(safe-area-inset-bottom));
+  color: var(--night-ink);
+}
+
+.breath-screen--running {
+  padding-bottom: calc(var(--night-actions-bottom) + env(safe-area-inset-bottom));
+}
+
+.breath-glow {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--breath-sphere-top) - var(--space-5));
+  width: var(--breath-glow);
+  height: var(--breath-glow);
+  margin-left: calc(var(--breath-glow) / -2);
+  border-radius: 50%;
+  background: var(--night-glow);
+  opacity: var(--breath-glow-opacity);
+  filter: blur(var(--blob-blur));
+  pointer-events: none;
+}
+
+.breath-header {
+  position: relative;
+}
+
+.breath-subtitle {
+  margin-top: var(--space-1);
+  font-size: var(--fs-body-sm);
+  color: var(--night-ink-muted);
+}
+
+.pacer {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(var(--pacer-size) + var(--space-4));
+}
+
+/* No backdrop-filter here: the sphere animates every frame and the dark backdrop has
+   nothing to blur, so it would cost GPU time for no visible effect. */
+.pacer__sphere {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--pacer-size);
+  height: var(--pacer-size);
+  border-radius: 50%;
+  background: var(--sphere-fill);
+  border: var(--sphere-border);
+  box-shadow: var(--sphere-shadow);
+  /* Rasterised at full size (no initial scale in CSS) so it stays sharp when it grows. */
+  will-change: transform, opacity;
+}
+
+/* The word scales with the sphere, as in the design: it is part of the breath. */
+.pacer__label {
+  font: var(--fw-light) var(--fs-pacer) var(--font-display);
+  color: var(--on-accent);
+  text-shadow: var(--sphere-label-shadow);
+}
+
+.breath-controls {
+  position: relative;
+  transition: opacity var(--dur-fade) var(--ease-calm);
+}
+
+.breath-screen--running .breath-controls {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.chips--night {
+  margin-top: var(--space-2);
+}
+
+.chips--options {
+  margin-top: var(--breath-chips-gap);
+}
+
+.chip--night {
+  padding: var(--chip-pad-y) var(--chip-pad-x-sm);
+  font-size: var(--fs-small);
+  color: var(--night-chip-ink);
+  background: var(--night-chip-fill);
+  border: var(--hairline) solid var(--night-chip-border);
+}
+
+.chip--night[aria-pressed='true'] {
+  color: var(--on-accent);
+  background: var(--night-chip-fill-on);
+}
+
+.breath-actions {
+  position: relative;
+  display: flex;
+  gap: var(--space-1-5);
+  justify-content: center;
+  margin-top: var(--space-3);
+}
+
+.breath-actions .btn {
+  flex: 1;
+}
+
+.glass--breath {
+  background: var(--glass-breath-fill);
+  border: var(--glass-breath-border);
+  box-shadow: var(--glass-breath-shadow);
+  -webkit-backdrop-filter: var(--glass-blur-strong);
+  backdrop-filter: var(--glass-blur-strong);
+  color: var(--on-accent);
+  font-weight: var(--fw-semibold);
+}
+
+.btn.glass--breath {
+  color: var(--on-accent);
+}
+
+/* Custom pattern editor (added: not in design; night glass panel + rows) */
+.breath-editor {
+  position: absolute;
+  left: var(--space-2);
+  right: var(--space-2);
+  top: calc(var(--breath-sphere-top) - var(--space-4));
+  z-index: 3;
+  padding: var(--space-3);
+  border-radius: var(--radius-card);
+  background: var(--night-panel-fill);
+  text-align: center;
+}
+
+.breath-editor .rows {
+  margin: var(--space-1) 0 var(--space-2);
+  text-align: left;
+}
+
+.breath-editor__row {
+  padding: var(--space-1) 0;
+  border-bottom-color: var(--night-chip-border);
+  color: var(--night-ink);
+}
+
+.breath-editor__stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.breath-editor__stepper .icon-btn {
+  color: var(--night-ink);
+  font-size: var(--fs-row);
+}
+
+.breath-editor__stepper .icon-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.breath-editor__value {
+  min-width: var(--space-5);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.breath-editor .btn {
+  width: 100%;
+}
+
+/* Night tab bar (added: design shows Respiro without one; same glass in night colours) */
+.tabbar--night {
+  background: var(--glass-night-fill);
+  border: var(--glass-night-border);
+  box-shadow: var(--glass-night-shadow);
+}
+
+.tabbar--night a {
+  color: var(--night-tabbar-ink);
+}
+
+.tabbar--night a[aria-current='page'] {
+  color: var(--night-ink);
+}

@@ -3,11 +3,12 @@ import { TabBar } from './components/TabBar';
 import { UpdateNotice } from './components/UpdateNotice';
 import { usePractice } from './practice';
 import { useRoute, type Route } from './router';
+import { Breath } from './screens/Breath';
 import { Placeholder } from './screens/Placeholder';
-import { Zazen } from './screens/Zazen';
 import { Settings } from './screens/Settings';
 import { Sitting } from './screens/Sitting';
 import { Today } from './screens/Today';
+import { Zazen } from './screens/Zazen';
 import { t } from './strings.it';
 
 function Screen({ route }: { route: Route }) {
@@ -17,7 +18,7 @@ function Screen({ route }: { route: Route }) {
     case 'zazen':
       return <Zazen />;
     case 'breath':
-      return <Placeholder title={t.tabs.breath} />;
+      return <Breath practice={undefined} />;
     case 'guided':
       return <Placeholder title={t.tabs.guided} />;
     case 'history':
@@ -30,19 +31,30 @@ function Screen({ route }: { route: Route }) {
 export function App() {
   const route = useRoute();
   const practice = usePractice();
-  if (practice) {
+
+  if (practice?.kind === 'sitting') {
     return (
       <div className="app night">
         <Sitting config={practice.config} sitting={practice.sitting} />
       </div>
     );
   }
+
+  if (practice?.kind === 'breath') {
+    return (
+      <div className="app night breath">
+        <Breath key="breath" practice={practice} />
+      </div>
+    );
+  }
+
+  const night = route === 'breath';
   return (
-    <div className="app">
-      <Blobs />
+    <div className={night ? 'app night breath' : 'app'}>
+      {!night && <Blobs />}
       <UpdateNotice />
       <Screen key={route} route={route} />
-      {route !== 'settings' && <TabBar current={route} />}
+      {route !== 'settings' && <TabBar current={route} night={night} />}
     </div>
   );
 }

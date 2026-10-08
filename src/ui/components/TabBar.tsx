@@ -9,9 +9,9 @@ const TABS = [
   { route: 'history', label: t.tabs.history },
 ] as const satisfies readonly { route: Route; label: string }[];
 
-export function TabBar({ current }: { current: Route }) {
+export function TabBar({ current, night = false }: { current: Route; night?: boolean }) {
   return (
-    <nav className="tabbar" aria-label={t.tabs.label}>
+    <nav className={night ? 'tabbar tabbar--night' : 'tabbar'} aria-label={t.tabs.label}>
       <ul>
         {TABS.map((tab) => (
           <li key={tab.route}>
